@@ -1,4 +1,4 @@
-package by.clevertec.klimov.cleverbank;
+package by.clevertec.klimov.cleverbank.controller;
 
 import java.io.*;
 import jakarta.servlet.http.*;

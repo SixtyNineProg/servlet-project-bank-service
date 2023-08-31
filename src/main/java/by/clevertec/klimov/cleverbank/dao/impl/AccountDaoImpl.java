@@ -2,7 +2,6 @@ package by.clevertec.klimov.cleverbank.dao.impl;
 
 import by.clevertec.klimov.cleverbank.dao.AccountDao;
 import by.clevertec.klimov.cleverbank.entity.Account;
-
 import java.util.Optional;
 
 public class AccountDaoImpl implements AccountDao {

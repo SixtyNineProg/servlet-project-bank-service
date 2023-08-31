@@ -1,11 +1,11 @@
 package by.clevertec.klimov.cleverbank.entity;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class Account {
+    
     private double balance;
     private List<Transaction> transactions;
 

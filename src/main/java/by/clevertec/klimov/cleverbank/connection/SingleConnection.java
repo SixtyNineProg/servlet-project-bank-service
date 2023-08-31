@@ -1,12 +1,11 @@
 package by.clevertec.klimov.cleverbank.connection;
 
 import by.clevertec.klimov.cleverbank.exception.ConnectionException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

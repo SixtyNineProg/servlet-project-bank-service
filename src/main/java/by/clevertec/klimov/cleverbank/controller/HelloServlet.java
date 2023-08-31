@@ -1,8 +1,8 @@
 package by.clevertec.klimov.cleverbank.controller;
 
-import java.io.*;
-import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
+import java.io.*;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {

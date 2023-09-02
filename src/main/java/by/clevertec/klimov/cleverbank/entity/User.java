@@ -46,6 +46,18 @@ public class User {
     this.bank = banks.stream().filter(b -> b.getId() == bankId).findFirst().orElse(null);
   }
 
+  public void addToBalance(double amount) {
+    account.addToBalance(amount);
+  }
+
+  public void unbalance(double amount) {
+    account.unbalance(amount);
+  }
+
+  public void addTransaction(Transaction transaction) {
+    account.addTransaction(transaction);
+  }
+
   @Override
   public String toString() {
     return "User{" +

@@ -1,13 +1,40 @@
 package by.clevertec.klimov.cleverbank.dao.impl;
 
+import by.clevertec.klimov.cleverbank.connection.SingleConnection;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.entity.Bank;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Optional;
 
+import by.clevertec.klimov.cleverbank.exception.DaoException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
+
+@Slf4j
 public class BankDaoImpl implements BankDao {
+
+  public static final String TEMPLATE_INSERT_QUERY =
+      "INSERT INTO public.bank (name) VALUES (?)";
+  public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY = "An error occurred while executing sql query";
+
   @Override
-  public <S extends Bank> S save(S entity) {
-    return null;
+  public int save(Bank bank) {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement insert = connection.prepareStatement(TEMPLATE_INSERT_QUERY);
+      insert.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
+      return insert.executeUpdate();
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      try {
+        connection.rollback();
+      } catch (SQLException e1) {
+        log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e1);
+      }
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
   }
 
   @Override
@@ -16,7 +43,5 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
-  public void deleteById(Long aLong) {
-
-  }
+  public void deleteById(Long aLong) {}
 }

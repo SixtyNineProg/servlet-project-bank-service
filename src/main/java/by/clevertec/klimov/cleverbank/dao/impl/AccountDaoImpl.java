@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public class AccountDaoImpl implements AccountDao {
   @Override
-  public <S extends Account> S save(S entity) {
-    return null;
+  public int save(Account entity) {
+    return 0;
   }
 
   @Override

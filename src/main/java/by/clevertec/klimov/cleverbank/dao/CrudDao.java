@@ -3,7 +3,7 @@ package by.clevertec.klimov.cleverbank.dao;
 import java.util.Optional;
 
 public interface CrudDao<T, ID> {
-  <S extends T> S save(S entity);
+  int save(T entity);
 
   Optional<T> findById(ID id);
 

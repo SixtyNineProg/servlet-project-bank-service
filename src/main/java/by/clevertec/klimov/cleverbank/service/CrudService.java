@@ -3,7 +3,7 @@ package by.clevertec.klimov.cleverbank.service;
 import java.util.Optional;
 
 public interface CrudService<T, ID> {
-  <S extends T> S create(S entity);
+  int create(T entity);
 
   Optional<T> readById(ID id);
 

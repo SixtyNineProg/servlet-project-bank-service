@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
   @Override
-  public <S extends User> S create(S entity) {
-    return null;
+  public int create(User entity) {
+    return 0;
   }
 
   @Override

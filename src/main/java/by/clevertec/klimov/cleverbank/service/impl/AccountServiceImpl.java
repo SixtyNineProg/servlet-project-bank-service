@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class AccountServiceImpl implements AccountService {
   @Override
-  public <S extends Account> S create(S entity) {
-    return null;
+  public int create(Account entity) {
+    return 0;
   }
 
   @Override

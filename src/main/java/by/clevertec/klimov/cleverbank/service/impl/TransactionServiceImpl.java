@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class TransactionServiceImpl implements TransactionService {
   @Override
-  public <S extends Transaction> S create(S entity) {
-    return null;
+  public int create(Transaction entity) {
+    return 0;
   }
 
   @Override

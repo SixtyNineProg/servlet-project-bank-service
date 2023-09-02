@@ -7,11 +7,14 @@ group 'by.clevertec.klimov'
 version '1.0-SNAPSHOT'
 
 repositories {
+  google()
   mavenCentral()
+  jcenter()
 }
 
 ext {
   junitVersion = '5.9.2'
+  mockitoversion = '5.0.0'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -23,9 +26,26 @@ dependencies {
   compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+  testImplementation("org.mockito:mockito-inline:${mockitoversion}")
+  testImplementation("org.mockito:mockito-junit-jupiter:${mockitoversion}")
 
-  compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
+  compileOnly 'org.projectlombok:lombok:1.18.28'
+  annotationProcessor 'org.projectlombok:lombok:1.18.28'
+  testCompileOnly 'org.projectlombok:lombok:1.18.28'
+  testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+  implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+  implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.7'
+
+//  implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+//  implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+
+  implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.13.0'
+  implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+
+  implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
 }
 
 test {

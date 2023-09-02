@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public class TransactionDaoImpl implements TransactionDao {
   @Override
-  public <S extends Transaction> S save(S entity) {
-    return null;
+  public int save(Transaction entity) {
+    return 0;
   }
 
   @Override

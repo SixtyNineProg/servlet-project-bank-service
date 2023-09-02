@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
   @Override
-  public <S extends User> S save(S entity) {
-    return null;
+  public int save(User entity) {
+return 0;
   }
 
   @Override

@@ -1,21 +1,28 @@
 package by.clevertec.klimov.cleverbank.entity;
 
-import by.clevertec.klimov.cleverbank.emum.TransactionType;
 import by.clevertec.klimov.cleverbank.exception.ServiceException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.opencsv.bean.CsvBindByName;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Bank {
 
-  //  private long id;
+  @CsvBindByName(column = "id")
+  private long id;
 
+  @CsvBindByName(column = "name")
   private String name;
 
   private List<User> users;
@@ -27,60 +34,19 @@ public class Bank {
     users.add(user);
   }
 
-  public void deposit(User user, double amount) {
-    if (isExistUser(user)) {
-      Account account = user.getAccount();
-      if (amount > 0) {
-        account.addTransaction(
-            Transaction.builder()
-                .type(TransactionType.DEPOSIT)
-                .amount(amount)
-                .date(LocalDateTime.now())
-                .build());
-        account.setBalance(account.getBalance() + amount);
-      } else {
-        throw new ServiceException("Amount must be greater than zero");
-      }
-    } else {
-      throw new ServiceException("User not found in the bank");
-    }
-  }
-
-  public void withdraw(User user, double amount) {
-    if (isExistUser(user)) {
-      Account account = user.getAccount();
-      double balance = account.getBalance();
-      if (amount > 0) {
-        if (balance >= amount) {
-          account.addTransaction(
-              Transaction.builder()
-                  .type(TransactionType.DEPOSIT)
-                  .amount(amount)
-                  .date(LocalDateTime.now())
-                  .build());
-          account.setBalance(account.getBalance() - amount);
-        } else {
-          throw new ServiceException("Insufficient funds");
-        }
-      } else {
-        throw new ServiceException("Amount must be greater than zero");
-      }
-    } else {
-      throw new ServiceException("User not found in the bank");
-    }
+  public void setUsers(List<User> users) {
+    this.users = users.stream().filter(user -> user.getBankId() == id).collect(Collectors.toList());
   }
 
   protected boolean isExistUser(User user) {
-    return Objects.nonNull(users) && users.stream().anyMatch(u -> u.equals(user));
-  }
-
-  protected boolean isExistUser(String userName) {
-    return Objects.nonNull(users) && users.stream().anyMatch(u -> u.getName().equals(userName));
-  }
-
-  protected Optional<User> getUser(String userName) {
     return Objects.nonNull(users)
-        ? users.stream().filter(user -> user.getName().equals(userName)).findFirst()
+        && Objects.nonNull(user)
+        && users.stream().anyMatch(u -> u.getId() == user.getId());
+  }
+
+  protected Optional<User> getUser(User user) {
+    return Objects.nonNull(users)
+        ? users.stream().filter(u -> u.getId() == user.getId()).findFirst()
         : Optional.empty();
   }
 
@@ -88,9 +54,9 @@ public class Bank {
     return Objects.nonNull(users) ? users.size() : 0;
   }
 
-  public double getUserBalance(String userName) {
-    if (isExistUser(userName)) {
-      return getUser(userName)
+  public double getUserBalance(User user) {
+    if (isExistUser(user)) {
+      return getUser(user)
           .orElseThrow(() -> new ServiceException("User not found"))
           .getBalance();
     } else {

@@ -7,8 +7,6 @@ import by.clevertec.klimov.cleverbank.exception.ServiceException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
-
-import by.clevertec.klimov.cleverbank.app.processor.BankProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +21,7 @@ public class BankProcessorImpl implements BankProcessor {
             .build();
     try {
       transfer(sender, receiver, transaction);
+      CheckProcessor.printCheck(sender, receiver, transaction);
     } catch (ServiceException e) {
       log.error("Transfer finished with error");
     }

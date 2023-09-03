@@ -1,6 +1,7 @@
 package by.clevertec.klimov.cleverbank.app;
 
-import by.clevertec.klimov.cleverbank.app.processor.InterestCalculator;
+import by.clevertec.klimov.cleverbank.app.processor.BankProcessor;
+import by.clevertec.klimov.cleverbank.app.processor.BankProcessorImpl;
 import by.clevertec.klimov.cleverbank.configuration.Configuration;
 import by.clevertec.klimov.cleverbank.configuration.ConfigurationLoader;
 import by.clevertec.klimov.cleverbank.entity.Account;
@@ -34,10 +35,20 @@ public class Main {
     System.out.println(users);
     System.out.println(accounts);
 
-    InterestCalculator calculator = new InterestCalculator(configuration.getInterestRatePercent(), users);
-    calculator.startInterestCalculation();
-    Thread.sleep(60000); // Выполнять в течение 60 секунд (120 раз)
-    calculator.stopInterestCalculation();
-    System.out.println(users);
+    User sender = users.get(0);
+    User receiver = users.get(1);
+    System.out.println(sender);
+    System.out.println(receiver);
+    BankProcessor bankProcessor = new BankProcessorImpl();
+    bankProcessor.transfer(sender, receiver, 100);
+    System.out.println(sender);
+    System.out.println(receiver);
+
+//    InterestCalculator calculator = new InterestCalculator(configuration.getInterestRatePercent(), users);
+//    calculator.startInterestCalculation();
+//    Thread.sleep(60000); // Выполнять в течение 60 секунд (120 раз)
+//    calculator.stopInterestCalculation();
+//    System.out.println(users);
+
   }
 }

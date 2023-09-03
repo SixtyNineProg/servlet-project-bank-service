@@ -1,0 +1,9 @@
+Bank check
+Check number: 7dca0902-1964-4659-878a-c80ac30d36fa
+Date: Sun Sep 03 21:47:14 MSK 2023
+Transaction type: DEPOSIT
+Sender Bank: Tres-Zap
+Receiver's bank: Matsoft
+Sender account: 1
+Receiver's account: 2
+Amount: 100.0 BYN.

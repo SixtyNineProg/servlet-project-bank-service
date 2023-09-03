@@ -4,7 +4,6 @@ import by.clevertec.klimov.cleverbank.exception.ConnectionException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Objects;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SingleConnection {
 
   private static final String URL =
-      "jdbc:postgresql://localhost:5432/clever";
+      "jdbc:postgresql://localhost:5432/clever_bank";
   private static final String USER = "postgres";
   private static final String PASSWORD = "123456789";
   private static Connection connection = null;

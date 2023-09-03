@@ -20,7 +20,7 @@ public class BankController extends HttpServlet {
 
   public static final String PARAM_NAME_ID = "id";
 
-  private BankService bankService = new BankServiceImpl();
+  private final BankService bankService = new BankServiceImpl();
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)

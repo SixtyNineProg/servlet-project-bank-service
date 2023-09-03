@@ -4,23 +4,22 @@ import by.clevertec.klimov.cleverbank.emum.TransactionType;
 import by.clevertec.klimov.cleverbank.entity.Transaction;
 import by.clevertec.klimov.cleverbank.entity.User;
 import by.clevertec.klimov.cleverbank.exception.ServiceException;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Banking class.
- * @autor Klimov Dmitry
  * @version 1.0.0
  */
 @Slf4j
 public class BankProcessorImpl implements BankProcessor {
 /**
 * Transferring funds from one account to another.
- * @param sender
- * @param receiver
- * @param amount
+ * @param sender client sender
+ * @param receiver client receiver
+ * @param amount transfer amount
 */
   @Override
   public void transfer(User sender, User receiver, double amount) {
@@ -28,7 +27,7 @@ public class BankProcessorImpl implements BankProcessor {
         Transaction.builder()
             .uuid(UUID.randomUUID())
             .amount(amount)
-            .date(LocalDateTime.now())
+            .date(new Date())
             .build();
     try {
       transfer(sender, receiver, transaction);
@@ -40,8 +39,8 @@ public class BankProcessorImpl implements BankProcessor {
 
 /**
 * Deposit to the user's account.
- * @param user
- * @param amount
+ * @param user client
+ * @param amount deposit amount
 */
   @Override
   public void deposit(User user, double amount) {
@@ -49,7 +48,7 @@ public class BankProcessorImpl implements BankProcessor {
         Transaction.builder()
             .amount(amount)
             .uuid(UUID.randomUUID())
-            .date(LocalDateTime.now())
+            .date(new Date())
             .type(TransactionType.DEPOSIT)
             .build();
       deposit(user, transaction);
@@ -58,8 +57,8 @@ public class BankProcessorImpl implements BankProcessor {
 
 /**
 * Withdrawal of funds from the user's account.
- * @param user
- * @param amount
+ * @param user client
+ * @param amount withdrawal amount
 */
   @Override
   public void withdrawal(User user, double amount) {
@@ -67,7 +66,7 @@ public class BankProcessorImpl implements BankProcessor {
         Transaction.builder()
             .uuid(UUID.randomUUID())
             .amount(amount)
-            .date(LocalDateTime.now())
+            .date(new Date())
             .type(TransactionType.WITHDRAWAL)
             .build();
       withdrawal(user, transaction);

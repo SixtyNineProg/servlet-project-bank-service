@@ -2,6 +2,9 @@ package by.clevertec.klimov.cleverbank.app.processor;
 
 import by.clevertec.klimov.cleverbank.entity.Transaction;
 import by.clevertec.klimov.cleverbank.entity.User;
+import by.clevertec.klimov.cleverbank.exception.ServiceException;
+import java.io.FileWriter;
+import java.io.IOException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -9,15 +12,18 @@ import lombok.NoArgsConstructor;
 public class CheckProcessor {
 
   public static void printCheck(User sender, User receiver, Transaction transaction) {
-    System.out.println("Банковский чек");
-    System.out.println("Номер чека: " + transaction.getUuid());
-    System.out.println("Дата: " + transaction.getDate());
-    System.out.println("Тип транзакции: " + transaction.getType());
-    System.out.println("Банк отправителя: " + sender.getBank().getName());
-    System.out.println("Банк получателя: " + receiver.getBank().getName());
-    System.out.println("Счет отправителя: " + sender.getAccount().getId());
-    System.out.println("Счет получателя: " + receiver.getAccount().getId());
-    System.out.println("Сумма: " + transaction.getAmount() + " BYN");
-    System.out.println("---------------");
+    try (FileWriter writer = new FileWriter("check/bank_check.txt")) {
+      writer.write("Bank check\n");
+      writer.write("Check number: " + transaction.getUuid() + "\n");
+      writer.write("Date: " + transaction.getDate() + "\n");
+      writer.write("Transaction type: " + transaction.getType() + "\n");
+      writer.write("Sender Bank: " + sender.getBank().getName() + "\n");
+      writer.write("Receiver's bank: " + receiver.getBank().getName() + "\n");
+      writer.write("Sender account: " + sender.getAccount().getId() + "\n");
+      writer.write("Receiver's account: " + receiver.getAccount().getId() + "\n");
+      writer.write("Amount: " + transaction.getAmount() + " BYN." + "\n");
+    } catch (IOException e) {
+      throw new ServiceException(e);
+    }
   }
 }

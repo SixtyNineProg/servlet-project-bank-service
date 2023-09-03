@@ -3,12 +3,11 @@ package by.clevertec.klimov.cleverbank.dao.impl;
 import by.clevertec.klimov.cleverbank.connection.SingleConnection;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.entity.Bank;
+import by.clevertec.klimov.cleverbank.exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
-
-import by.clevertec.klimov.cleverbank.exception.DaoException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
 

@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BankServiceImpl implements BankService {
 
   public static final String ERROR_OCCURRED_WHILE_CREATE_BANK = "An error occurred while create bank";
-  private BankDao bankDao = new BankDaoImpl();
+  private final BankDao bankDao = new BankDaoImpl();
 
   @Override
   public int create(Bank bank) {

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.concurrent.*;
-
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -17,13 +16,12 @@ public class InterestCalculator {
   private int interestRate = 1;
   
   private List<User> userList;
+  private ScheduledExecutorService executorService;
 
   public InterestCalculator(int interestRate, List<User> userList) {
     this.interestRate = interestRate;
     this.userList = userList;
   }
-
-  private ScheduledExecutorService executorService;
 
   public void startInterestCalculation() {
     executorService = Executors.newSingleThreadScheduledExecutor();

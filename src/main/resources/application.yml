@@ -5,9 +5,9 @@ datasource:
   driver-class-name: "org.postgresql.Driver"
 
 paths:
-  accounts: "src/main/resources/accounts.csv"
-  banks: "src/main/resources/banks.csv"
-  users: "src/main/resources/users.csv"
+  accounts: "src/main/resources/csv/accounts.csv"
+  banks: "src/main/resources/csv/banks.csv"
+  users: "src/main/resources/csv/users.csv"
 
 interestRatePercent: 1
 

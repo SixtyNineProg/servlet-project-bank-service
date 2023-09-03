@@ -10,7 +10,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Objects;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -23,15 +26,31 @@ public class BankController extends HttpServlet {
   private final BankService bankService = new BankServiceImpl();
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    long id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
-    bankService.readById(id);
-    super.doGet(req, resp);
+  protected void doGet(HttpServletRequest req, HttpServletResponse response) {
+    log.debug("Get bank");
+    try {
+      long id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
+      Optional<Bank> optionalBank = bankService.readById(id);
+      int httpServletResponse;
+      if (optionalBank.isPresent()) {
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(JsonUtils.objToJson(optionalBank.get()));
+        out.flush();
+        httpServletResponse = HttpServletResponse.SC_OK;
+      } else {
+        httpServletResponse = HttpServletResponse.SC_NOT_FOUND;
+      }
+      response.setStatus(httpServletResponse);
+    } catch (Exception e) {
+      log.error("An error occurred while create bank", e);
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+  protected void doPost(HttpServletRequest req, HttpServletResponse response) {
     log.debug("Create bank");
     try {
       Bank bank = JsonUtils.jsonToObject(IOUtils.toString(req.getReader()), Bank.class);
@@ -44,10 +63,10 @@ public class BankController extends HttpServlet {
       } else {
         httpServletResponse = HttpServletResponse.SC_BAD_REQUEST;
       }
-      resp.setStatus(httpServletResponse);
+      response.setStatus(httpServletResponse);
     } catch (Exception e) {
       log.error("An error occurred while create bank", e);
-      resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }
 

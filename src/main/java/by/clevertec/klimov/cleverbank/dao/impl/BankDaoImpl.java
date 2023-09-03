@@ -6,6 +6,7 @@ import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +15,15 @@ import org.apache.commons.lang.StringEscapeUtils;
 @Slf4j
 public class BankDaoImpl implements BankDao {
 
-  public static final String TEMPLATE_INSERT_QUERY =
-      "INSERT INTO public.bank (name) VALUES (?)";
-  public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY = "An error occurred while executing sql query";
+  public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
+
+  public static final String TEMPLATE_SELECT_QUERY =
+      "SELECT id, name FROM public.bank WHERE id = (?)";
+  public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY =
+      "An error occurred while executing sql query";
+
+  public static final String ATTRIBUTE_KEY_ID = "id";
+  public static final String ATTRIBUTE_KEY_NAME = "name";
 
   @Override
   public int save(Bank bank) {
@@ -37,8 +44,25 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
-  public Optional<Bank> findById(Long aLong) {
-    return Optional.empty();
+  public Optional<Bank> findById(Long id) {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement select = connection.prepareStatement(TEMPLATE_SELECT_QUERY);
+      select.setLong(1, id);
+      ResultSet res = select.executeQuery();
+      if (res.next()) {
+        return Optional.of(
+            Bank.builder()
+                .id(Long.parseLong(res.getString(ATTRIBUTE_KEY_ID)))
+                .name(res.getString(ATTRIBUTE_KEY_NAME))
+                .build());
+      } else {
+        return Optional.empty();
+      }
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
   }
 
   @Override

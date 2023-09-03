@@ -1,0 +1,11 @@
+datasource:
+  url: "jdbc:postgresql://localhost:5432/clever_bank"
+  user: "postgres"
+  password: "123456789"
+  driver-class-name: "org.postgresql.Driver"
+
+paths:
+  accounts: "src/main/resources/accounts.csv"
+  banks: "src/main/resources/banks.csv"
+  users: "src/main/resources/users.csv"
+

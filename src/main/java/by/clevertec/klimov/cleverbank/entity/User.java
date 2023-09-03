@@ -1,17 +1,16 @@
 package by.clevertec.klimov.cleverbank.entity;
 
-import by.clevertec.klimov.cleverbank.exception.ServiceException;
 import com.opencsv.bean.CsvBindByName;
 import java.util.List;
-import java.util.Objects;
-
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class User {
 
   @CsvBindByName(column = "id")
@@ -30,32 +29,36 @@ public class User {
 
   private Bank bank;
 
-  public double getBalance() {
-    if (Objects.nonNull(account)) {
+  public synchronized double getBalance() {
       return account.getBalance();
-    } else {
-      throw new ServiceException("Account is empty");
-    }
   }
-  
-  public void setAccount(List<Account> accounts) {
+
+  public synchronized void setAccount(List<Account> accounts) {
     this.account = accounts.stream().filter(acc -> acc.getId() == accountId).findFirst().orElse(null);
   }
 
-  public void setBank(List<Bank> banks) {
+  public synchronized void setBank(List<Bank> banks) {
     this.bank = banks.stream().filter(b -> b.getId() == bankId).findFirst().orElse(null);
   }
 
-  public void addToBalance(double amount) {
+  public synchronized void addToBalance(double amount) {
     account.addToBalance(amount);
   }
 
-  public void unbalance(double amount) {
+  public synchronized void unbalance(double amount) {
     account.unbalance(amount);
   }
 
-  public void addTransaction(Transaction transaction) {
+  public synchronized void addTransaction(Transaction transaction) {
     account.addTransaction(transaction);
+  }
+
+  public synchronized List<Transaction> getTransactions() {
+    return account.getTransactions();
+  }
+
+  public synchronized boolean isExistTransaction(Transaction transaction) {
+    return getTransactions().stream().anyMatch(transact -> transact.equals(transaction));
   }
 
   @Override

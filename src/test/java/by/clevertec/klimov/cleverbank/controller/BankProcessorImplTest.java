@@ -1,22 +1,17 @@
 package by.clevertec.klimov.cleverbank.controller;
 
-import by.clevertec.klimov.cleverbank.emum.TransactionType;
-import by.clevertec.klimov.cleverbank.entity.Transaction;
-import by.clevertec.klimov.cleverbank.entity.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-class BankProcessorTest {
+class BankProcessorImplTest {
 
   public static final double DEPOSIT_AMOUNT = 200.0;
   public static final double WITHDRAW_AMOUNT = 200.0;
 
-  private BankProcessor bankProcessorUnderTest;
+  private BankProcessorImpl bankProcessorUnderTest;
 
   @BeforeEach
   void setUp() {
-    bankProcessorUnderTest = new BankProcessor();
+    bankProcessorUnderTest = new BankProcessorImpl();
   }
 
 //  @Test

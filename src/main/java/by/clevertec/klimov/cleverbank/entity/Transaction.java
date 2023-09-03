@@ -1,6 +1,7 @@
 package by.clevertec.klimov.cleverbank.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import by.clevertec.klimov.cleverbank.emum.TransactionType;
 import lombok.Builder;
@@ -17,4 +18,6 @@ public class Transaction {
     private double amount;
 
     private LocalDateTime date;
+
+    private UUID uuid;
 }

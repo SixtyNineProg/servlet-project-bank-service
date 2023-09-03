@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class CustomCsvToBean<T> {
-  public List<T> beanBuilder(String fileName, Class<T> requireClass, char separator)
+
+  public List<T> beanBuilder(String filePath, Class<T> requireClass, char separator)
       throws IOException {
     return new CsvToBeanBuilder<T>(
-            new FileReader("src/main/resources/" + fileName))
+            new FileReader(filePath))
         .withType(requireClass)
         .withSeparator(separator)
         .build()

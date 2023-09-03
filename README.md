@@ -38,8 +38,24 @@ To start the project you need:
 - data in the database is filled in automatically when starting the project from csv files
 
 ## REST-services:
-### GET http://localhost:8080/check/?itemId={itemId}&itemId={itemId}
-##### getting products on ids
+### GET http://localhost:8081/bank/?id={id}
+##### getting bank on id
         where:
-        {itemId} - id product
-
+        {id} - bank id
+### PUT http://localhost:8081/bank/
+##### update bank
+         Example of request body:
+         {
+            "id": 5,
+            "name": "Alfa"
+         }
+### POST http://localhost:8081/bank/
+##### create bank
+         Example of request body:
+         {
+            "name": "Alfa"
+         }
+### DELETE http://localhost:8081/bank/?id={id}
+##### delete bank
+         where:
+         {id} - bank id

@@ -9,3 +9,5 @@ paths:
   banks: "src/main/resources/banks.csv"
   users: "src/main/resources/users.csv"
 
+interestRatePercent: 1
+

@@ -38,6 +38,10 @@ public class Account {
     balance -= amount;
   }
 
+  public void calculateInterest(int percent) {
+    balance += balance * ((double) percent /100);
+  }
+
   public int getTransactionsSize() {
     return Objects.nonNull(transactions) ? transactions.size() : 0;
   }

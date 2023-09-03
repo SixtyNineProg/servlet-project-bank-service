@@ -49,6 +49,10 @@ public class User {
     account.unbalance(amount);
   }
 
+  public synchronized void calculateInterest(int percent) {
+    account.calculateInterest(percent);
+  }
+
   public synchronized void addTransaction(Transaction transaction) {
     account.addTransaction(transaction);
   }

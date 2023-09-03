@@ -14,6 +14,8 @@ public class Configuration {
 
   private Paths paths;
 
+  private int interestRatePercent;
+
   @Data
   public static class Datasource {
 

@@ -13,10 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BankServiceImplUnitTest {
 
-  private final Bank createTestBank = Bank.builder().name("Alfa").users(Collections.emptyList()).build();
+  private final Bank createTestBank =
+      Bank.builder().name("Alfa").users(Collections.emptyList()).build();
 
-  @Mock
-  private BankServiceImpl bankServiceImplMock;
+  @Mock private BankServiceImpl bankServiceImplMock;
 
   @Test
   void testCreate_() {

@@ -9,8 +9,19 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Banking class.
+ * @autor Klimov Dmitry
+ * @version 1.0.0
+ */
 @Slf4j
 public class BankProcessorImpl implements BankProcessor {
+/**
+* Transferring funds from one account to another.
+ * @param sender
+ * @param receiver
+ * @param amount
+*/
   @Override
   public void transfer(User sender, User receiver, double amount) {
     Transaction transaction =
@@ -27,6 +38,11 @@ public class BankProcessorImpl implements BankProcessor {
     }
   }
 
+/**
+* Deposit to the user's account.
+ * @param user
+ * @param amount
+*/
   @Override
   public void deposit(User user, double amount) {
     Transaction transaction =
@@ -39,6 +55,12 @@ public class BankProcessorImpl implements BankProcessor {
       deposit(user, transaction);
   }
 
+
+/**
+* Withdrawal of funds from the user's account.
+ * @param user
+ * @param amount
+*/
   @Override
   public void withdrawal(User user, double amount) {
     Transaction transaction =

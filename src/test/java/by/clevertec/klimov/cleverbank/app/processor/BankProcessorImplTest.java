@@ -1,6 +1,7 @@
 package by.clevertec.klimov.cleverbank.app.processor;
 
 import by.clevertec.klimov.cleverbank.entity.Account;
+import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.entity.User;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ class BankProcessorImplTest {
   public static final double DEPOSIT_AMOUNT = 200.0;
   public static final double WITHDRAW_AMOUNT = 200.0;
   public static final int START_BALANCE = 1000;
+  public static final String BANK_NAME = "Alfa";
 
   private BankProcessorImpl bankProcessorImplUnderTest;
 
@@ -26,6 +28,7 @@ class BankProcessorImplTest {
   void testTransfer_DoTransfer_ValidUserAmounts() {
     final User sender =
         User.builder()
+            .bank(Bank.builder().name(BANK_NAME).build())
             .account(
                 Account.builder()
                     .transactions(new ArrayList<>(Collections.emptyList()))
@@ -34,6 +37,7 @@ class BankProcessorImplTest {
             .build();
     final User receiver =
         User.builder()
+            .bank(Bank.builder().name(BANK_NAME).build())
             .account(
                 Account.builder()
                     .transactions(new ArrayList<>(Collections.emptyList()))
@@ -54,6 +58,7 @@ class BankProcessorImplTest {
   void testHandleTransaction_DoDeposit_IncreaseAmount() {
     final User user =
         User.builder()
+            .bank(Bank.builder().name(BANK_NAME).build())
             .account(
                 Account.builder()
                     .transactions(new ArrayList<>(Collections.emptyList()))
@@ -72,6 +77,7 @@ class BankProcessorImplTest {
   void testHandleTransaction_DoWithdraw_DecreaseBalance() {
     final User user =
         User.builder()
+            .bank(Bank.builder().name(BANK_NAME).build())
             .account(
                 Account.builder()
                     .transactions(new ArrayList<>(Collections.emptyList()))

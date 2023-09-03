@@ -4,7 +4,6 @@ import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl;
 import by.clevertec.klimov.cleverbank.utils.JsonUtils;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

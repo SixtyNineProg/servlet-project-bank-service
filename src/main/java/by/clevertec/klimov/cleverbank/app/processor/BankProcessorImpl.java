@@ -1,4 +1,4 @@
-package by.clevertec.klimov.cleverbank.controller;
+package by.clevertec.klimov.cleverbank.app.processor;
 
 import by.clevertec.klimov.cleverbank.emum.TransactionType;
 import by.clevertec.klimov.cleverbank.entity.Transaction;
@@ -7,6 +7,8 @@ import by.clevertec.klimov.cleverbank.exception.ServiceException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+
+import by.clevertec.klimov.cleverbank.app.processor.BankProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

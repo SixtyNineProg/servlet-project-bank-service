@@ -1,4 +1,4 @@
-package by.clevertec.klimov.cleverbank.controller;
+package by.clevertec.klimov.cleverbank.app.processor;
 
 import by.clevertec.klimov.cleverbank.entity.User;
 

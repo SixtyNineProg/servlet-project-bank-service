@@ -1,5 +1,6 @@
 package by.clevertec.klimov.cleverbank.controller;
 
+import by.clevertec.klimov.cleverbank.app.processor.BankProcessorImpl;
 import org.junit.jupiter.api.BeforeEach;
 
 class BankProcessorImplTest {

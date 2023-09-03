@@ -1,5 +1,6 @@
 package by.clevertec.klimov.cleverbank.app;
 
+import by.clevertec.klimov.cleverbank.app.processor.InterestCalculator;
 import by.clevertec.klimov.cleverbank.configuration.Configuration;
 import by.clevertec.klimov.cleverbank.configuration.ConfigurationLoader;
 import by.clevertec.klimov.cleverbank.entity.Account;

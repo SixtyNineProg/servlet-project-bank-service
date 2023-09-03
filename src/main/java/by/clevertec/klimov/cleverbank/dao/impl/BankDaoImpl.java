@@ -18,8 +18,9 @@ public class BankDaoImpl implements BankDao {
   public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
   public static final String TEMPLATE_SELECT_QUERY =
       "SELECT id, name FROM public.bank WHERE id = (?)";
-  public static final String TEMPLATE_DELETE_QUERY =
-          "DELETE FROM public.bank WHERE id = (?)";
+  public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
+  public static final String TEMPLATE_UPDATE_QUERY =
+      "UPDATE public.bank SET name = (?) WHERE id = (?)";
 
   public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY =
       "An error occurred while executing sql query";
@@ -76,6 +77,25 @@ public class BankDaoImpl implements BankDao {
       return delete.executeUpdate();
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
+  }
+
+  @Override
+  public int update(Bank bank) {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement update = connection.prepareStatement(TEMPLATE_UPDATE_QUERY);
+      update.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
+      update.setLong(2, bank.getId());
+      return update.executeUpdate();
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      try {
+        connection.rollback();
+      } catch (SQLException sqlException) {
+        log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, sqlException);
+      }
       throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
     }
   }

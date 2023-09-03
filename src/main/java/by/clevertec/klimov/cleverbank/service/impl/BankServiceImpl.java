@@ -5,7 +5,6 @@ import by.clevertec.klimov.cleverbank.dao.impl.BankDaoImpl;
 import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import java.util.Optional;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +28,16 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  public <S extends Bank> S update(S entity) {
-    return null;
+  public int update(Bank bank) {
+    log.debug("Update bank: {}", bank);
+    Optional<Bank> optionalBank = readById(bank.getId());
+    if (optionalBank.isPresent()) {
+      Bank dbBank = optionalBank.get();
+      dbBank.setName(bank.getName());
+      return bankDao.update(dbBank);
+    } else {
+      return 0;
+    }
   }
 
   @Override

@@ -4,16 +4,13 @@ import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl;
 import by.clevertec.klimov.cleverbank.utils.JsonUtils;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.Optional;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -71,9 +68,21 @@ public class BankController extends HttpServlet {
   }
 
   @Override
-  protected void doPut(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    super.doPut(request, response);
+  protected void doPut(HttpServletRequest request, HttpServletResponse response) {
+    log.debug("Update bank");
+    try {
+      String body = IOUtils.toString(request.getReader());
+      Bank requestBank = JsonUtils.jsonToObject(body, Bank.class);
+      int httpServletResponse;
+      httpServletResponse =
+          bankService.update(requestBank) == 1
+              ? HttpServletResponse.SC_CREATED
+              : HttpServletResponse.SC_NOT_FOUND;
+      response.setStatus(httpServletResponse);
+    } catch (Exception e) {
+      log.error("An error occurred while update bank", e);
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Override
@@ -82,13 +91,13 @@ public class BankController extends HttpServlet {
     try {
       long id = Integer.parseInt(request.getParameter(PARAM_NAME_ID));
       int httpServletResponse;
-        httpServletResponse =
-            bankService.deleteById(id) == 1
-                ? HttpServletResponse.SC_OK
-                : HttpServletResponse.SC_NOT_FOUND;
+      httpServletResponse =
+          bankService.deleteById(id) == 1
+              ? HttpServletResponse.SC_OK
+              : HttpServletResponse.SC_NOT_FOUND;
       response.setStatus(httpServletResponse);
     } catch (Exception e) {
-      log.error("An error occurred while create bank", e);
+      log.error("An error occurred while delete bank", e);
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }

@@ -8,4 +8,6 @@ public interface CrudDao<T, ID> {
   Optional<T> findById(ID id);
 
   int deleteById(ID id);
+
+  int update(T entity);
 }

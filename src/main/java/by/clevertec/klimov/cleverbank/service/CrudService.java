@@ -7,7 +7,7 @@ public interface CrudService<T, ID> {
 
   Optional<T> readById(ID id);
 
-  <S extends T> S update(S entity);
+  int update(T entity);
 
   int deleteById(ID id);
 }

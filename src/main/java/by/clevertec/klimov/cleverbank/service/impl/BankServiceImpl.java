@@ -34,5 +34,8 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  public void deleteById(Long aLong) {}
+  public int deleteById(Long id) {
+    log.info("Delete bank by id = {}", id);
+    return bankDao.deleteById(id);
+  }
 }

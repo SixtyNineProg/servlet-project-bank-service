@@ -7,5 +7,5 @@ public interface CrudDao<T, ID> {
 
   Optional<T> findById(ID id);
 
-  void deleteById(ID id);
+  int deleteById(ID id);
 }

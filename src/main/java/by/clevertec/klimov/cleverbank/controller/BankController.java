@@ -44,20 +44,20 @@ public class BankController extends HttpServlet {
       }
       response.setStatus(httpServletResponse);
     } catch (Exception e) {
-      log.error("An error occurred while create bank", e);
+      log.error("An error occurred while get bank", e);
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse response) {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     log.debug("Create bank");
     try {
-      Bank bank = JsonUtils.jsonToObject(IOUtils.toString(req.getReader()), Bank.class);
+      Bank bank = JsonUtils.jsonToObject(IOUtils.toString(request.getReader()), Bank.class);
       int httpServletResponse;
       if (Objects.nonNull(bank)) {
         httpServletResponse =
-            bankService.create(bank) > 0
+            bankService.create(bank) == 1
                 ? HttpServletResponse.SC_CREATED
                 : HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       } else {
@@ -71,14 +71,25 @@ public class BankController extends HttpServlet {
   }
 
   @Override
-  protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+  protected void doPut(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    super.doPut(req, resp);
+    super.doPut(request, response);
   }
 
   @Override
-  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    super.doDelete(req, resp);
+  protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
+    log.debug("Delete bank");
+    try {
+      long id = Integer.parseInt(request.getParameter(PARAM_NAME_ID));
+      int httpServletResponse;
+        httpServletResponse =
+            bankService.deleteById(id) == 1
+                ? HttpServletResponse.SC_OK
+                : HttpServletResponse.SC_NOT_FOUND;
+      response.setStatus(httpServletResponse);
+    } catch (Exception e) {
+      log.error("An error occurred while create bank", e);
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
   }
 }

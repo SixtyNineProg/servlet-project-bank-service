@@ -16,9 +16,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class BankDaoImpl implements BankDao {
 
   public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
-
   public static final String TEMPLATE_SELECT_QUERY =
       "SELECT id, name FROM public.bank WHERE id = (?)";
+  public static final String TEMPLATE_DELETE_QUERY =
+          "DELETE FROM public.bank WHERE id = (?)";
+
   public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY =
       "An error occurred while executing sql query";
 
@@ -66,5 +68,15 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
-  public void deleteById(Long aLong) {}
+  public int deleteById(Long id) {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement delete = connection.prepareStatement(TEMPLATE_DELETE_QUERY);
+      delete.setLong(1, id);
+      return delete.executeUpdate();
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
+  }
 }

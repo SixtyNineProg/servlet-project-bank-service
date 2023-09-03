@@ -19,7 +19,7 @@ class BankServiceImplUnitTest {
   private BankServiceImpl bankServiceImplMock;
 
   @Test
-  void testCreate() {
+  void testCreate_() {
     given(bankServiceImplMock.create(createTestBank)).willReturn(1);
     Assertions.assertTrue(bankServiceImplMock.create(createTestBank) > 0, "Bank isn't created");
   }

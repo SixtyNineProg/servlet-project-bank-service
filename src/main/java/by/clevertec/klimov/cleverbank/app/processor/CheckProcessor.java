@@ -16,7 +16,6 @@ public class CheckProcessor {
       writer.write("Bank check\n");
       writer.write("Check number: " + transaction.getUuid() + "\n");
       writer.write("Date: " + transaction.getDate() + "\n");
-      writer.write("Transaction type: " + transaction.getType() + "\n");
       writer.write("Sender Bank: " + sender.getBank().getName() + "\n");
       writer.write("Receiver's bank: " + receiver.getBank().getName() + "\n");
       writer.write("Sender account: " + sender.getAccount().getId() + "\n");

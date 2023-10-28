@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class BankProcessorImplTest {
+class BankImplTest {
 
   public static final double TRANSFER_AMOUNT = 200.0;
   public static final double DEPOSIT_AMOUNT = 200.0;
@@ -17,11 +17,11 @@ class BankProcessorImplTest {
   public static final int START_BALANCE = 1000;
   public static final String BANK_NAME = "Alfa";
 
-  private BankProcessorImpl bankProcessorImplUnderTest;
+  private BankImpl bankProcessorImplUnderTest;
 
   @BeforeEach
   void setUp() {
-    bankProcessorImplUnderTest = new BankProcessorImpl();
+    bankProcessorImplUnderTest = new BankImpl();
   }
 
   @Test
@@ -89,7 +89,6 @@ class BankProcessorImplTest {
 
     bankProcessorImplUnderTest.withdrawal(user, WITHDRAW_AMOUNT);
 
-    // Verify the results
     Assertions.assertEquals(startBalance - WITHDRAW_AMOUNT, user.getBalance());
   }
 }

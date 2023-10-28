@@ -2,7 +2,7 @@ package by.clevertec.klimov.cleverbank.app.processor;
 
 import by.clevertec.klimov.cleverbank.entity.User;
 
-public interface BankProcessor {
+public interface Bank {
   void transfer(User sender, User receiver, double amount);
 
   void deposit(User user, double amount);

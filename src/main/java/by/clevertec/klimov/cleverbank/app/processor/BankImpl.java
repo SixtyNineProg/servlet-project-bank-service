@@ -1,6 +1,5 @@
 package by.clevertec.klimov.cleverbank.app.processor;
 
-import by.clevertec.klimov.cleverbank.emum.TransactionType;
 import by.clevertec.klimov.cleverbank.entity.Transaction;
 import by.clevertec.klimov.cleverbank.entity.User;
 import by.clevertec.klimov.cleverbank.exception.ServiceException;
@@ -8,13 +7,14 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Banking class.
  * @version 1.0.0
  */
 @Slf4j
-public class BankProcessorImpl implements BankProcessor {
+public class BankImpl implements Bank {
 /**
 * Transferring funds from one account to another.
  * @param sender client sender
@@ -23,12 +23,7 @@ public class BankProcessorImpl implements BankProcessor {
 */
   @Override
   public void transfer(User sender, User receiver, double amount) {
-    Transaction transaction =
-        Transaction.builder()
-            .uuid(UUID.randomUUID())
-            .amount(amount)
-            .date(new Date())
-            .build();
+    Transaction transaction = new Transaction(0 ,amount, new Date(), UUID.randomUUID(), StringUtils.EMPTY);
     try {
       transfer(sender, receiver, transaction);
       CheckProcessor.printCheck(sender, receiver, transaction);
@@ -44,13 +39,7 @@ public class BankProcessorImpl implements BankProcessor {
 */
   @Override
   public void deposit(User user, double amount) {
-    Transaction transaction =
-        Transaction.builder()
-            .amount(amount)
-            .uuid(UUID.randomUUID())
-            .date(new Date())
-            .type(TransactionType.DEPOSIT)
-            .build();
+    Transaction transaction = new Transaction(0 ,amount, new Date(), UUID.randomUUID(), StringUtils.EMPTY);
       deposit(user, transaction);
   }
 
@@ -62,13 +51,7 @@ public class BankProcessorImpl implements BankProcessor {
 */
   @Override
   public void withdrawal(User user, double amount) {
-    Transaction transaction =
-        Transaction.builder()
-            .uuid(UUID.randomUUID())
-            .amount(amount)
-            .date(new Date())
-            .type(TransactionType.WITHDRAWAL)
-            .build();
+    Transaction transaction = new Transaction(0 ,amount, new Date(), UUID.randomUUID(), StringUtils.EMPTY);
       withdrawal(user, transaction);
   }
 
@@ -106,9 +89,7 @@ public class BankProcessorImpl implements BankProcessor {
 
   private void transfer(User sender, User receiver, Transaction transaction) {
     if (Objects.nonNull(sender) && Objects.nonNull(receiver)) {
-      transaction.setType(TransactionType.WITHDRAWAL);
       withdrawal(sender, transaction);
-      transaction.setType(TransactionType.DEPOSIT);
       try{
         deposit(receiver, transaction);
       } catch (ServiceException e) {

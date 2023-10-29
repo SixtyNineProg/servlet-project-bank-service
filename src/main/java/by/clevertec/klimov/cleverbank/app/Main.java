@@ -7,14 +7,21 @@ import by.clevertec.klimov.cleverbank.entity.User;
 import by.clevertec.klimov.cleverbank.utils.CustomCsvToBean;
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 
 @Slf4j
 public class Main {
 
   public static void main(String[] args) throws IOException {
     Configuration configuration = ConfigurationLoader.getConfiguration();
-    log.debug(configuration.toString());
+    log.info(configuration.toString());
+
+    log.info("size: {}", findAllClassesUsingClassLoader("by.clevertec.klimov.cleverbank").size());
 
     Configuration.Paths paths = configuration.getPaths();
     CustomCsvToBean<Account> accountsCsvToBean = new CustomCsvToBean<>();
@@ -32,5 +39,26 @@ public class Main {
           user.setBank(banks);
           user.setAccount(accounts);
         });
+  }
+
+  public static Set<Class<?>> findAllClassesUsingClassLoader(String packageName) {
+    Reflections reflections = new Reflections(packageName);
+    Set<String> classes = reflections.getAll(Scanners.SubTypes);
+    return classes.stream()
+        .map(Main::getClass)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toSet());
+  }
+
+  private static Class<?> getClass(String className) {
+    try {
+      return Class.forName(className);
+    } catch (ClassNotFoundException e) {
+      log.info("ClassNotFoundException: {}", className);
+      return null;
+    } catch (NoClassDefFoundError e) {
+      log.info("NoClassDefFoundError: {}", className);
+      return null;
+    }
   }
 }

@@ -24,7 +24,7 @@ tasks.withType(JavaCompile).configureEach {
 compileJava {options.encoding = "UTF-8"}
 
 dependencies {
-  compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
+  implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
   testImplementation("org.mockito:mockito-inline:${mockitoversion}")
@@ -51,6 +51,8 @@ dependencies {
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0'
 
   implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
+
+  implementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
 }
 
 test {

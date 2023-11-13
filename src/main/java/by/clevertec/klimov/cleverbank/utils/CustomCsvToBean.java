@@ -9,8 +9,7 @@ public class CustomCsvToBean<T> {
 
   public List<T> beanBuilder(String filePath, Class<T> requireClass, char separator)
       throws IOException {
-    return new CsvToBeanBuilder<T>(
-            new FileReader(filePath))
+    return new CsvToBeanBuilder<T>(new FileReader(filePath))
         .withType(requireClass)
         .withSeparator(separator)
         .build()

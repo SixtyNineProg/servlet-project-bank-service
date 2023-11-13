@@ -39,7 +39,7 @@ public class Account {
   }
 
   public void calculateInterest(int percent) {
-    balance += balance * ((double) percent /100);
+    balance += balance * ((double) percent / 100);
   }
 
   public int getTransactionsSize() {

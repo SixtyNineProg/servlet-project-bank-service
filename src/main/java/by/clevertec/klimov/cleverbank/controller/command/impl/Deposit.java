@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class Deposit implements Command {
   @Override
-  public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void execute(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
     processRequest(request, response);
   }
 
-  private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-  }
+  private void processRequest(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {}
 }

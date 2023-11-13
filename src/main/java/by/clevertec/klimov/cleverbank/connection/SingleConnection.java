@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SingleConnection {
 
-  private static final String URL =
-      "jdbc:postgresql://localhost:5432/clever_bank";
+  private static final String URL = "jdbc:postgresql://localhost:5432/clever_bank";
   private static final String USER = "postgres";
   private static final String PASSWORD = "123456789";
   private static Connection connection = null;
@@ -31,7 +30,7 @@ public class SingleConnection {
       throw new ConnectionException("Error connect to dataBase", e);
     }
   }
-  
+
   public static Connection getConnection() {
     try {
       if (Objects.isNull(connection)) {

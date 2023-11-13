@@ -5,7 +5,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class TransactionDeposit extends Transaction{
-  
+public class TransactionDeposit extends Transaction {
+
   private User recipientUser;
 }

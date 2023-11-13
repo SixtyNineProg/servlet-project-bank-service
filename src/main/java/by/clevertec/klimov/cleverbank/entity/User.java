@@ -30,11 +30,12 @@ public class User {
   private Bank bank;
 
   public synchronized double getBalance() {
-      return account.getBalance();
+    return account.getBalance();
   }
 
   public synchronized void setAccount(List<Account> accounts) {
-    this.account = accounts.stream().filter(acc -> acc.getId() == accountId).findFirst().orElse(null);
+    this.account =
+        accounts.stream().filter(acc -> acc.getId() == accountId).findFirst().orElse(null);
   }
 
   public synchronized void setBank(List<Bank> banks) {
@@ -67,12 +68,18 @@ public class User {
 
   @Override
   public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", accountId=" + accountId +
-            ", bankId=" + bankId +
-            ", account=" + account +
-            '}';
+    return "User{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", accountId="
+        + accountId
+        + ", bankId="
+        + bankId
+        + ", account="
+        + account
+        + '}';
   }
 }

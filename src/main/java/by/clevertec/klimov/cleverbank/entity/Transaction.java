@@ -13,20 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Transaction {
 
-    private long id;
+  private long id;
 
-    private double amount;
+  private double amount;
 
-    private Date date;
+  private Date date;
 
-    private UUID uuid;
+  private UUID uuid;
 
-    private String authorizationCode;
+  private String authorizationCode;
 
-    public Transaction(double amount, Date date, UUID uuid, String authorizationCode) {
-        this.amount = amount;
-        this.date = date;
-        this.uuid = uuid;
-        this.authorizationCode = authorizationCode;
-    }
+  public Transaction(double amount, Date date, UUID uuid, String authorizationCode) {
+    this.amount = amount;
+    this.date = date;
+    this.uuid = uuid;
+    this.authorizationCode = authorizationCode;
+  }
 }

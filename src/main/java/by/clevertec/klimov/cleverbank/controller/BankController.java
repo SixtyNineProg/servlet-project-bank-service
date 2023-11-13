@@ -14,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 @Slf4j
-@Controller
 public class BankController extends HttpServlet {
 
   public static final String PARAM_NAME_ID = "id";
 
   private final BankService bankService = new BankServiceImpl();
 
-  @GetMapping("/")
+  @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse response) {
+    String pathInfo = req.getPathInfo();
     log.debug("Get bank");
     try {
       long id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));

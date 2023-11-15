@@ -4,6 +4,7 @@ import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl;
 import by.clevertec.klimov.cleverbank.utils.JsonUtils;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 @Slf4j
+@WebServlet(name = "bank", value = "/bank")
 public class BankController extends HttpServlet {
 
   public static final String PARAM_NAME_ID = "id";
@@ -22,7 +24,6 @@ public class BankController extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse response) {
-    String pathInfo = req.getPathInfo();
     log.debug("Get bank");
     try {
       long id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));

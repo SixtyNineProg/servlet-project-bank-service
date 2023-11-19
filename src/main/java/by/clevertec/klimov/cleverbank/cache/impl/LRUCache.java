@@ -49,8 +49,10 @@ public class LRUCache<K, V> implements Cache<K, V> {
   @Override
   public void delete(K key) {
     Node<K, V> item = cache.get(key);
-    remove(item);
-    cache.remove(key);
+    if (item != null) {
+      remove(item);
+      cache.remove(key);
+    }
   }
 
   @Override

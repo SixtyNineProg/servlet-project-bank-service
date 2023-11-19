@@ -8,6 +8,7 @@ import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.mapper.Mapper;
 import by.clevertec.klimov.cleverbank.mapper.impl.BankMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -18,16 +19,13 @@ import org.aspectj.lang.annotation.Pointcut;
 @Slf4j
 public class BankCacheAspect implements AspectCache {
 
-  private final Cache<Long, BankDto> cache;
+  public static final String FORMAT_CACHE_SIZE = "Cache size: {}";
+  private final Cache<Long, Bank> cache;
   private final Mapper<Bank, BankDto> mapper = new BankMapper();
 
   public BankCacheAspect() {
-    cache = new CacheFactoryImpl<Long, BankDto>().getCache(CacheType.LRU);
-    cache.setCapacity(5);
+    cache = new CacheFactoryImpl<Long, Bank>().getCache(CacheType.LRU);
   }
-
-  //  @Pointcut("execution(*
-  // by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl.create(*))")
 
   @Override
   @Pointcut("@annotation(by.clevertec.klimov.cleverbank.aspect.annotation.CreateBank)")
@@ -35,7 +33,7 @@ public class BankCacheAspect implements AspectCache {
 
   @Override
   @Pointcut("@annotation(by.clevertec.klimov.cleverbank.aspect.annotation.ReadBank)")
-  public void readById() {}
+  public void read() {}
 
   @Override
   @Pointcut("@annotation(by.clevertec.klimov.cleverbank.aspect.annotation.UpdateBank)")
@@ -43,22 +41,58 @@ public class BankCacheAspect implements AspectCache {
 
   @Override
   @Pointcut("@annotation(by.clevertec.klimov.cleverbank.aspect.annotation.DeleteBank)")
-  public void deleteById() {}
+  public void delete() {}
 
   @Around("create()")
-  public Object beforeAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-    log.info("Aspect around create bank");
+  public Object doCreateProfiling(ProceedingJoinPoint joinPoint) throws Throwable {
+    Bank bank = (Bank) joinPoint.getArgs()[0];
+    log.info("Aspect around create bank. {}", bank);
     long rowCount = (Long) joinPoint.proceed();
-    BankDto bankDto = (BankDto) joinPoint.getArgs()[0];
-    cache.put(bankDto.getId(), bankDto);
-    log.info("Cache size: {}", cache.size());
+    if (rowCount == 1) {
+      cache.put(bank.getId(), bank);
+    }
+    log.info(FORMAT_CACHE_SIZE, cache.size());
     return rowCount;
   }
 
-  @Around(value = "deleteById()")
+  @Around(value = "delete()")
   public Object doDeleteProfiling(ProceedingJoinPoint joinPoint) throws Throwable {
+    Long id = (Long) joinPoint.getArgs()[0];
+    log.info("Aspect around delete bank with id = {}", id);
     int rowCount = (Integer) joinPoint.proceed();
-    cache.size();
+    if (rowCount == 1) {
+      cache.delete(id);
+    }
+    log.info(FORMAT_CACHE_SIZE, cache.size());
+    return rowCount;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Around(value = "read()")
+  public Object doReadProfiling(ProceedingJoinPoint joinPoint) throws Throwable {
+    Long id = (Long) joinPoint.getArgs()[0];
+    log.info("Aspect around read bank by id = {}", id);
+    Optional<Bank> optionalBank = cache.get(id);
+    if (optionalBank.isEmpty()) {
+      optionalBank = (Optional<Bank>) joinPoint.proceed();
+      if (optionalBank.isPresent()) {
+        Bank bank = optionalBank.get();
+        cache.put(bank.getId(), bank);
+      }
+    }
+    log.info(FORMAT_CACHE_SIZE, cache.size());
+    return optionalBank;
+  }
+
+  @Around(value = "update()")
+  public Object doUpdateProfiling(ProceedingJoinPoint joinPoint) throws Throwable {
+    Bank bank = (Bank) joinPoint.getArgs()[0];
+    log.info("Aspect around update bank. {}", bank);
+    int rowCount = (Integer) joinPoint.proceed();
+    if (rowCount == 1) {
+      cache.put(bank.getId(), bank);
+    }
+    log.info(FORMAT_CACHE_SIZE, cache.size());
     return rowCount;
   }
 }

@@ -4,9 +4,9 @@ public interface AspectCrud {
 
   void create();
 
-  void readById();
+  void read();
 
   void update();
 
-  void deleteById();
+  void delete();
 }

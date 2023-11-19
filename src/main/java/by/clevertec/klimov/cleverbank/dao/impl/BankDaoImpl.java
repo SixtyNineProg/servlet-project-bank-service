@@ -1,5 +1,9 @@
 package by.clevertec.klimov.cleverbank.dao.impl;
 
+import by.clevertec.klimov.cleverbank.aspect.annotation.CreateBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.DeleteBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.ReadBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.UpdateBank;
 import by.clevertec.klimov.cleverbank.connection.SingleConnection;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.entity.Bank;
@@ -29,6 +33,7 @@ public class BankDaoImpl implements BankDao {
   public static final String ATTRIBUTE_KEY_NAME = "name";
 
   @Override
+  @CreateBank
   public int save(Bank bank) {
     Connection connection = SingleConnection.getConnection();
     try {
@@ -47,6 +52,7 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @ReadBank
   public Optional<Bank> findById(Long id) {
     Connection connection = SingleConnection.getConnection();
     try {
@@ -69,6 +75,7 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @DeleteBank
   public int deleteById(Long id) {
     Connection connection = SingleConnection.getConnection();
     try {
@@ -82,6 +89,7 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @UpdateBank
   public int update(Bank bank) {
     Connection connection = SingleConnection.getConnection();
     try {

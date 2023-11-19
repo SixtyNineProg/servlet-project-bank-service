@@ -28,7 +28,9 @@ public class LFUCache<K, V> implements Cache<K, V> {
   @Override
   public void delete(K key) {
     Node<K, V> item = cache.get(key);
-    removeNode(item);
+    if (item != null) {
+      removeNode(item);
+    }
   }
 
   @Override

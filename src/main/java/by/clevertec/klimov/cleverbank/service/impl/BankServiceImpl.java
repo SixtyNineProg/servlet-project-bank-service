@@ -25,14 +25,12 @@ public class BankServiceImpl implements BankService {
   private final Mapper<Bank, BankDto> bankMapper = new BankMapper();
 
   @Override
-  @CreateBank
   public long create(BankDto bank) {
     log.debug("Create bank: {}", bank);
     return bankDao.save(bankMapper.mapToEntity(bank, Bank.class));
   }
 
   @Override
-  @ReadBank
   public Optional<BankDto> readById(Long id) {
     log.info("Read bank by id = {}", id);
     Optional<Bank> optionalBank = bankDao.findById(id);
@@ -40,7 +38,6 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  @UpdateBank
   public int update(BankDto bankDto) {
     log.debug("Update bank: {}", bankDto);
     Optional<Bank> optionalBank = bankDao.findById(bankDto.getId());
@@ -56,7 +53,6 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  @DeleteBank
   public int deleteById(Long id) {
     log.info("Delete bank by id = {}", id);
     return bankDao.deleteById(id);

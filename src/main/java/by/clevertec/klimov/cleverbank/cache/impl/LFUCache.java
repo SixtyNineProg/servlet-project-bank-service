@@ -30,6 +30,7 @@ public class LFUCache<K, V> implements Cache<K, V> {
     Node<K, V> item = cache.get(key);
     if (item != null) {
       removeNode(item);
+      cache.remove(item.key);
     }
   }
 
@@ -83,7 +84,6 @@ public class LFUCache<K, V> implements Cache<K, V> {
     } else {
       tail = node.prev;
     }
-    cache.remove(node.key);
   }
 
   private void addNodeWithUpdatedFrequency(Node<K, V> node) {

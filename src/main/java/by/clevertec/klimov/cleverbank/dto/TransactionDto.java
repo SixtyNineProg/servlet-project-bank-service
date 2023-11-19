@@ -1,11 +1,10 @@
 package by.clevertec.klimov.cleverbank.dto;
 
 import by.clevertec.klimov.cleverbank.entity.User;
-import lombok.Builder;
-import lombok.Data;
-
 import java.util.Date;
 import java.util.UUID;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

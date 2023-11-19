@@ -16,8 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class User implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 1905122041950251208L;
+  @Serial private static final long serialVersionUID = 1905122041950251208L;
 
   @CsvBindByName(column = "id")
   private long id;

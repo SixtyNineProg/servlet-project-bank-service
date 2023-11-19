@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public class LFUCache<K, V> implements Cache<K, V> {
 
+  private final Map<K, Node<K, V>> cache = new HashMap<>();
   private Node<K, V> head;
   private Node<K, V> tail;
-  private final Map<K, Node<K, V>> cache = new HashMap<>();
   private int capacity = 10;
 
   @Override
@@ -23,6 +23,12 @@ public class LFUCache<K, V> implements Cache<K, V> {
     item.frequency = item.frequency + 1;
     addNodeWithUpdatedFrequency(item);
     return Optional.ofNullable(item.value);
+  }
+
+  @Override
+  public void delete(K key) {
+    Node<K, V> item = cache.get(key);
+    removeNode(item);
   }
 
   @Override
@@ -75,6 +81,7 @@ public class LFUCache<K, V> implements Cache<K, V> {
     } else {
       tail = node.prev;
     }
+    cache.remove(node.key);
   }
 
   private void addNodeWithUpdatedFrequency(Node<K, V> node) {

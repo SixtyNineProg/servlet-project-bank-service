@@ -18,8 +18,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 public class Bank implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 1905122041950251207L;
+  @Serial private static final long serialVersionUID = 1905122041950251207L;
 
   @CsvBindByName(column = "id")
   private long id;

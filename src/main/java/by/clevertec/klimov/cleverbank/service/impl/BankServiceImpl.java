@@ -1,5 +1,9 @@
 package by.clevertec.klimov.cleverbank.service.impl;
 
+import by.clevertec.klimov.cleverbank.aspect.annotation.CreateBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.DeleteBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.ReadBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.UpdateBank;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.dao.impl.BankDaoImpl;
 import by.clevertec.klimov.cleverbank.dto.BankDto;
@@ -21,12 +25,14 @@ public class BankServiceImpl implements BankService {
   private final Mapper<Bank, BankDto> bankMapper = new BankMapper();
 
   @Override
+  @CreateBank
   public long create(BankDto bank) {
     log.debug("Create bank: {}", bank);
     return bankDao.save(bankMapper.mapToEntity(bank, Bank.class));
   }
 
   @Override
+  @ReadBank
   public Optional<BankDto> readById(Long id) {
     log.info("Read bank by id = {}", id);
     Optional<Bank> optionalBank = bankDao.findById(id);
@@ -34,6 +40,7 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
+  @UpdateBank
   public int update(BankDto bankDto) {
     log.debug("Update bank: {}", bankDto);
     Optional<Bank> optionalBank = bankDao.findById(bankDto.getId());
@@ -49,6 +56,7 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
+  @DeleteBank
   public int deleteById(Long id) {
     log.info("Delete bank by id = {}", id);
     return bankDao.deleteById(id);

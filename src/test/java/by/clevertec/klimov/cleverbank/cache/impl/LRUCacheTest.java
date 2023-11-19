@@ -79,4 +79,23 @@ class LRUCacheTest {
     // then
     assertThat(actual).isEmpty();
   }
+
+  @Test
+  void delete_whenDeleteBankFromCache_thenCacheSizeDecrement() {
+    // given
+    LRUCache<Long, Bank> cache = new LRUCache<>();
+    Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
+    Bank bankTwo = BankTestData.builder().build().setId(2).toBuilder().build().buildBank();
+    Bank bankThree = BankTestData.builder().build().setId(3).toBuilder().build().buildBank();
+    int expectedSize = 2;
+
+    // when
+    cache.put(bank.getId(), bank);
+    cache.put(bankTwo.getId(), bankTwo);
+    cache.put(bankThree.getId(), bankThree);
+    cache.delete(3L);
+
+    // then
+    assertThat(cache.size()).isEqualTo(expectedSize);
+  }
 }

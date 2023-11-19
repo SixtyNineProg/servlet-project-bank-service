@@ -1,6 +1,5 @@
 package by.clevertec.klimov.cleverbank.dto;
 
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;

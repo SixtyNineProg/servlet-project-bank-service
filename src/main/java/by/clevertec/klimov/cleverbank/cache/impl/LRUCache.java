@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public class LRUCache<K, V> implements Cache<K, V> {
 
-  private int capacity = 10;
   private final Map<K, Node<K, V>> cache = new HashMap<>();
   private final Node<K, V> head = new Node<>(null, null);
   private final Node<K, V> tail = new Node<>(null, null);
+  private int capacity = 10;
 
   public LRUCache() {
     this.head.next = tail;
@@ -44,6 +44,13 @@ public class LRUCache<K, V> implements Cache<K, V> {
     remove(node);
     add(node);
     return Optional.ofNullable(node.value);
+  }
+
+  @Override
+  public void delete(K key) {
+    Node<K, V> item = cache.get(key);
+    remove(item);
+    cache.remove(key);
   }
 
   @Override

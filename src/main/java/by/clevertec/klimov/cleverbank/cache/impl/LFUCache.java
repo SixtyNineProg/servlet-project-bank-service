@@ -7,14 +7,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class LFUCache<K, V> implements Cache<K, V> {
-  private Node<K, V> head;
-  private Node<K, V> tail;
-  private final Map<K, Node<K, V>> cache;
-  private final int capacity;
 
-  public LFUCache(int capacity) {
-    this.capacity = capacity;
-    this.cache = new HashMap<>();
+  private Node<K, V> head = new Node<>(null, null, 0);
+  private Node<K, V> tail = new Node<>(null, null, 0);
+  private final Map<K, Node<K, V>> cache = new HashMap<>();
+  private int capacity = 10;
+
+  public LFUCache() {
+    this.head.next = tail;
+    this.tail.prev = head;
   }
 
   @Override
@@ -42,6 +43,11 @@ public class LFUCache<K, V> implements Cache<K, V> {
   @Override
   public void clear() {
     cache.clear();
+  }
+
+  @Override
+  public void setCapacity(int capacity) {
+    this.capacity = capacity;
   }
 
   @Override

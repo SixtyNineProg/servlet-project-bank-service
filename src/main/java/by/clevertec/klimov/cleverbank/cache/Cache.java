@@ -13,4 +13,6 @@ public interface Cache<K, V> {
   boolean isEmpty();
 
   void clear();
+
+  void setCapacity(int capacity);
 }

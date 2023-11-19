@@ -7,16 +7,12 @@ import java.util.Optional;
 
 public class LRUCache<K, V> implements Cache<K, V> {
 
-  private final int capacity;
-  private final Map<K, Node<K, V>> cache;
-  private final Node<K, V> head;
-  private final Node<K, V> tail;
+  private int capacity = 10;
+  private final Map<K, Node<K, V>> cache = new HashMap<>();
+  private final Node<K, V> head = new Node<>(null, null);
+  private final Node<K, V> tail = new Node<>(null, null);
 
-  public LRUCache(int capacity) {
-    this.capacity = capacity;
-    this.cache = HashMap.newHashMap(capacity);
-    this.head = new Node<>(null, null);
-    this.tail = new Node<>(null, null);
+  public LRUCache() {
     this.head.next = tail;
     this.tail.prev = head;
   }
@@ -63,6 +59,11 @@ public class LRUCache<K, V> implements Cache<K, V> {
   @Override
   public void clear() {
     cache.clear();
+  }
+
+  @Override
+  public void setCapacity(int capacity) {
+    this.capacity = capacity;
   }
 
   private void add(Node<K, V> node) {

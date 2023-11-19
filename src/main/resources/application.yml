@@ -9,5 +9,7 @@ paths:
   banks: "src/main/resources/csv/banks.csv"
   users: "src/main/resources/csv/users.csv"
 
-interestRatePercent: 1
+cache:
+  type: LRU
+  size: 1
 

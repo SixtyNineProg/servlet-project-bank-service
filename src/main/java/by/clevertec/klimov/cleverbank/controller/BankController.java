@@ -3,7 +3,7 @@ package by.clevertec.klimov.cleverbank.controller;
 import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl;
-import by.clevertec.klimov.cleverbank.utils.JsonUtils;
+import by.clevertec.klimov.cleverbank.util.JsonUtils;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

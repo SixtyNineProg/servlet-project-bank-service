@@ -1,6 +1,9 @@
 package by.clevertec.klimov.cleverbank.entity;
 
 import com.opencsv.bean.CsvBindByName;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class User {
+public class User implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1905122041950251208L;
 
   @CsvBindByName(column = "id")
   private long id;

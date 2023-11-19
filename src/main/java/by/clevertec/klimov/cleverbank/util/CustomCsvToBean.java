@@ -1,4 +1,4 @@
-package by.clevertec.klimov.cleverbank.utils;
+package by.clevertec.klimov.cleverbank.util;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.FileReader;

@@ -1,5 +1,5 @@
 package by.clevertec.klimov.cleverbank.service;
 
-import by.clevertec.klimov.cleverbank.entity.Bank;
+import by.clevertec.klimov.cleverbank.dto.BankDto;
 
-public interface BankService extends CrudService<Bank, Long> {}
+public interface BankService extends CrudService<BankDto, Long> {}

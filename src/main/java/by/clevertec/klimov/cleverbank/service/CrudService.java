@@ -2,12 +2,12 @@ package by.clevertec.klimov.cleverbank.service;
 
 import java.util.Optional;
 
-public interface CrudService<T, ID> {
-  int create(T entity);
+public interface CrudService<T, Id> {
+  long create(T entity);
 
-  Optional<T> readById(ID id);
+  Optional<T> readById(Id id);
 
   int update(T entity);
 
-  int deleteById(ID id);
+  int deleteById(Id id);
 }

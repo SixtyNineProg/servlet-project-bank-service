@@ -21,7 +21,6 @@ public class BankCacheAspect implements AspectCache {
 
   public static final String FORMAT_CACHE_SIZE = "Cache size: {}";
   private final Cache<Long, Bank> cache;
-  private final Mapper<Bank, BankDto> mapper = new BankMapper();
 
   public BankCacheAspect() {
     cache = new CacheFactoryImpl<Long, Bank>().getCache(CacheType.LRU);

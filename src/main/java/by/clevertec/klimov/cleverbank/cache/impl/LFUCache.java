@@ -8,15 +8,10 @@ import java.util.Optional;
 
 public class LFUCache<K, V> implements Cache<K, V> {
 
-  private Node<K, V> head = new Node<>(null, null, 0);
-  private Node<K, V> tail = new Node<>(null, null, 0);
+  private Node<K, V> head;
+  private Node<K, V> tail;
   private final Map<K, Node<K, V>> cache = new HashMap<>();
   private int capacity = 10;
-
-  public LFUCache() {
-    this.head.next = tail;
-    this.tail.prev = head;
-  }
 
   @Override
   public Optional<V> get(K key) {

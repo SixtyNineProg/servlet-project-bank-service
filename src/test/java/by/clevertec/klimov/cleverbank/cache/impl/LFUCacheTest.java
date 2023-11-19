@@ -13,7 +13,7 @@ class LFUCacheTest {
   @Test
   void put_whenPutBank_thenSizeCacheIncrement() {
     // given
-    LFUCache<Long, Bank> cache = new LFUCache<>(3);
+    LFUCache<Long, Bank> cache = new LFUCache<>();
     Bank expected = BankTestData.builder().build().toBuilder().build().buildBank();
     int expectedSize = 1;
 
@@ -32,7 +32,8 @@ class LFUCacheTest {
   @Test
   void put_whenPutTwoBanksInCacheWithOneCapacity_thenFirstBankWillBeForcedOut() {
     // given
-    LFUCache<Long, Bank> cache = new LFUCache<>(1);
+    LFUCache<Long, Bank> cache = new LFUCache<>();
+    cache.setCapacity(1);
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     Bank bankTwo = BankTestData.builder().build().toBuilder().build().setId(2).buildBank();
 
@@ -48,7 +49,7 @@ class LFUCacheTest {
   @Test
   void clear_whenAddBankAndClear_thanExpectedEmptyCache() {
     // given
-    LFUCache<Long, Bank> cache = new LFUCache<>(3);
+    LFUCache<Long, Bank> cache = new LFUCache<>();
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     int expectedSize = 0;
 
@@ -63,7 +64,8 @@ class LFUCacheTest {
   @Test
   void get_whenWorkWithBanks_thanLastRecentlyBankWillBeForcedOut() {
     // given
-    LFUCache<Long, Bank> cache = new LFUCache<>(2);
+    LFUCache<Long, Bank> cache = new LFUCache<>();
+    cache.setCapacity(2);
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     Bank bankTwo = BankTestData.builder().build().setId(2).toBuilder().build().buildBank();
     Bank bankThree = BankTestData.builder().build().setId(3).toBuilder().build().buildBank();

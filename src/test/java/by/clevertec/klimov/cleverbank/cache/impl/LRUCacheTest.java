@@ -12,7 +12,7 @@ class LRUCacheTest {
   @Test
   void put_whenPutBank_thenSizeCacheIncrement() {
     // given
-    LRUCache<Long, Bank> cache = new LRUCache<>(3);
+    LRUCache<Long, Bank> cache = new LRUCache<>();
     Bank expected = BankTestData.builder().build().toBuilder().build().buildBank();
     int expectedSize = 1;
 
@@ -23,15 +23,16 @@ class LRUCacheTest {
     // then
     assertThat(cache.size()).isEqualTo(expectedSize);
     assertThat(actual)
-            .hasFieldOrPropertyWithValue(Bank.Fields.id, expected.getId())
-            .hasFieldOrPropertyWithValue(Bank.Fields.name, expected.getName())
-            .hasFieldOrPropertyWithValue(Bank.Fields.users, expected.getUsers());
+        .hasFieldOrPropertyWithValue(Bank.Fields.id, expected.getId())
+        .hasFieldOrPropertyWithValue(Bank.Fields.name, expected.getName())
+        .hasFieldOrPropertyWithValue(Bank.Fields.users, expected.getUsers());
   }
 
   @Test
   void put_whenPutTwoBanksInCacheWithOneCapacity_thenFirstBankWillBeForcedOut() {
     // given
-    LRUCache<Long, Bank> cache = new LRUCache<>(1);
+    LRUCache<Long, Bank> cache = new LRUCache<>();
+    cache.setCapacity(1);
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     Bank bankTwo = BankTestData.builder().build().toBuilder().build().setId(2).buildBank();
 
@@ -47,7 +48,7 @@ class LRUCacheTest {
   @Test
   void clear_whenAddBankAndClear_thanExpectedEmptyCache() {
     // given
-    LRUCache<Long, Bank> cache = new LRUCache<>(3);
+    LRUCache<Long, Bank> cache = new LRUCache<>();
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     int expectedSize = 0;
 
@@ -62,7 +63,8 @@ class LRUCacheTest {
   @Test
   void get_whenWorkWithBanks_thanLastRecentlyBankWillBeForcedOut() {
     // given
-    LRUCache<Long, Bank> cache = new LRUCache<>(2);
+    LRUCache<Long, Bank> cache = new LRUCache<>();
+    cache.setCapacity(2);
     Bank bank = BankTestData.builder().build().toBuilder().build().buildBank();
     Bank bankTwo = BankTestData.builder().build().setId(2).toBuilder().build().buildBank();
     Bank bankThree = BankTestData.builder().build().setId(3).toBuilder().build().buildBank();

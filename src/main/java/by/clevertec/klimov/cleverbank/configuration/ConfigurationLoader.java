@@ -18,8 +18,7 @@ import org.yaml.snakeyaml.Yaml;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigurationLoader {
 
-  public static final String PATH_FILE_CONFIGURATION = "src/main/resources/application.yml";
-
+  public static final String CONFIGURATION_FILE_NAME = "application.yml";
   private static Configuration configuration;
 
   public static Configuration getConfiguration() {
@@ -31,13 +30,9 @@ public class ConfigurationLoader {
 
   private static Configuration loadConfig() {
     Yaml yaml = new Yaml();
-    File initialFile = new File(PATH_FILE_CONFIGURATION);
     InputStream inputStream;
-    try {
-      inputStream = new FileInputStream(initialFile);
-    } catch (FileNotFoundException e) {
-      throw new ServiceException(e);
-    }
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    inputStream = classloader.getResourceAsStream(CONFIGURATION_FILE_NAME);
     Map<String, Object> data = yaml.load(inputStream);
     Gson gson = new Gson();
     Type typeObject = new TypeToken<HashMap<String, Object>>() {}.getType();

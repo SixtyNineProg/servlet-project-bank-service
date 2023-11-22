@@ -2,12 +2,9 @@ package by.clevertec.klimov.cleverbank.aspect.impl;
 
 import by.clevertec.klimov.cleverbank.aspect.AspectCache;
 import by.clevertec.klimov.cleverbank.cache.Cache;
-import by.clevertec.klimov.cleverbank.cache.CacheType;
 import by.clevertec.klimov.cleverbank.cache.factory.impl.CacheFactoryImpl;
-import by.clevertec.klimov.cleverbank.dto.BankDto;
+import by.clevertec.klimov.cleverbank.configuration.ConfigurationLoader;
 import by.clevertec.klimov.cleverbank.entity.Bank;
-import by.clevertec.klimov.cleverbank.mapper.Mapper;
-import by.clevertec.klimov.cleverbank.mapper.impl.BankMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,10 +17,12 @@ import org.aspectj.lang.annotation.Pointcut;
 public class BankCacheAspect implements AspectCache {
 
   public static final String FORMAT_CACHE_SIZE = "Cache size: {}";
-  private final Cache<Long, Bank> cache;
+  private final Cache<Long, Bank> cache =
+      new CacheFactoryImpl<Long, Bank>()
+          .getCache(ConfigurationLoader.getConfiguration().getCache().getType());
 
   public BankCacheAspect() {
-    cache = new CacheFactoryImpl<Long, Bank>().getCache(CacheType.LRU);
+    cache.setCapacity(ConfigurationLoader.getConfiguration().getCache().getSize());
   }
 
   @Override

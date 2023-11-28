@@ -19,4 +19,13 @@ public class BankDto {
 
   @CsvBindByName(column = "name")
   private String name;
+
+  @CsvBindByName(column = "account_number")
+  private int accountNumber;
+
+  @CsvBindByName(column = "location")
+  private String location;
+
+  @CsvBindByName(column = "balance")
+  private double balance;
 }

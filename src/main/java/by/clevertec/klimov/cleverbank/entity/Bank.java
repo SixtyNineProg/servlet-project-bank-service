@@ -26,6 +26,15 @@ public class Bank implements Serializable {
   @CsvBindByName(column = "name")
   private String name;
 
+  @CsvBindByName(column = "account_number")
+  private int accountNumber;
+
+  @CsvBindByName(column = "location")
+  private String location;
+
+  @CsvBindByName(column = "balance")
+  private double balance;
+
   private List<User> users;
 
   public void setUsers(List<User> users) {

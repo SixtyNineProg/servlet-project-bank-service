@@ -21,7 +21,7 @@ public class BankDaoImpl implements BankDao {
 
   public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
   public static final String TEMPLATE_SELECT_QUERY =
-      "SELECT id, name FROM public.bank WHERE id = (?)";
+      "SELECT id, name, account_number, location, balance FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_UPDATE_QUERY =
       "UPDATE public.bank SET name = (?) WHERE id = (?)";
@@ -31,6 +31,9 @@ public class BankDaoImpl implements BankDao {
 
   public static final String ATTRIBUTE_KEY_ID = "id";
   public static final String ATTRIBUTE_KEY_NAME = "name";
+  public static final String ATTRIBUTE_KEY_ACCOUNT_NUMBER = "account_number";
+  public static final String ATTRIBUTE_KEY_LOCATION = "location";
+  public static final String ATTRIBUTE_KEY_BALANCE = "balance";
 
   @Override
   @CreateBank
@@ -62,8 +65,11 @@ public class BankDaoImpl implements BankDao {
       if (res.next()) {
         return Optional.of(
             Bank.builder()
-                .id(Long.parseLong(res.getString(ATTRIBUTE_KEY_ID)))
+                .id(res.getLong(ATTRIBUTE_KEY_ID))
                 .name(res.getString(ATTRIBUTE_KEY_NAME))
+                .accountNumber(res.getInt(ATTRIBUTE_KEY_ACCOUNT_NUMBER))
+                .location(res.getString(ATTRIBUTE_KEY_LOCATION))
+                .balance(res.getDouble(ATTRIBUTE_KEY_BALANCE))
                 .build());
       } else {
         return Optional.empty();

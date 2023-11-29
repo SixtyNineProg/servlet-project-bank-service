@@ -45,7 +45,7 @@ public class BankCacheAspect implements AspectCache {
   public Object doCreateProfiling(ProceedingJoinPoint joinPoint) throws Throwable {
     Bank bank = (Bank) joinPoint.getArgs()[0];
     log.info("Aspect around create bank. {}", bank);
-    long rowCount = (Long) joinPoint.proceed();
+    int rowCount = (Integer) joinPoint.proceed();
     if (rowCount == 1) {
       cache.put(bank.getId(), bank);
     }

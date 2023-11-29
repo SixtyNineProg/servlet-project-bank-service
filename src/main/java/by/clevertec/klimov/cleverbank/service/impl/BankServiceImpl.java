@@ -43,7 +43,7 @@ public class BankServiceImpl implements BankService {
     Optional<Bank> optionalBank = bankDao.findById(bankDto.getId());
     if (optionalBank.isPresent()) {
       Bank dbBank = optionalBank.get();
-      dbBank.setName(bankDto.getName());
+      bankMapper.merge(bankDto, dbBank);
       log.info("Update user with id = {} successfully", bankDto.getId());
       return bankDao.update(dbBank);
     } else {

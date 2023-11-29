@@ -19,12 +19,13 @@ import org.apache.commons.lang.StringEscapeUtils;
 @Slf4j
 public class BankDaoImpl implements BankDao {
 
-  public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
+  public static final String TEMPLATE_INSERT_QUERY =
+      "INSERT INTO public.bank (name, account_number, location, balance) VALUES (?, ?, ?, ?)";
   public static final String TEMPLATE_SELECT_QUERY =
       "SELECT id, name, account_number, location, balance FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_UPDATE_QUERY =
-      "UPDATE public.bank SET name = (?) WHERE id = (?)";
+      "UPDATE public.bank SET name = (?), account_number = (?), location = (?), balance = (?) WHERE id = (?)";
 
   public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY =
       "An error occurred while executing sql query";
@@ -42,6 +43,9 @@ public class BankDaoImpl implements BankDao {
     try {
       PreparedStatement insert = connection.prepareStatement(TEMPLATE_INSERT_QUERY);
       insert.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
+      insert.setInt(2, bank.getAccountNumber());
+      insert.setString(3, StringEscapeUtils.escapeSql(bank.getLocation()));
+      insert.setDouble(4, bank.getBalance());
       return insert.executeUpdate();
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
@@ -101,7 +105,10 @@ public class BankDaoImpl implements BankDao {
     try {
       PreparedStatement update = connection.prepareStatement(TEMPLATE_UPDATE_QUERY);
       update.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
-      update.setLong(2, bank.getId());
+      update.setInt(2, bank.getAccountNumber());
+      update.setString(3, StringEscapeUtils.escapeSql(bank.getLocation()));
+      update.setDouble(4, bank.getBalance());
+      update.setLong(5, bank.getId());
       return update.executeUpdate();
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);

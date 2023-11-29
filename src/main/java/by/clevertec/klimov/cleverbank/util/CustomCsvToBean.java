@@ -12,6 +12,7 @@ public class CustomCsvToBean<T> {
     return new CsvToBeanBuilder<T>(new FileReader(filePath))
         .withType(requireClass)
         .withSeparator(separator)
+        .withIgnoreEmptyLine(true)
         .build()
         .parse();
   }

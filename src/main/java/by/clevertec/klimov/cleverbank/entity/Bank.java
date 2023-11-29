@@ -21,19 +21,19 @@ public class Bank implements Serializable {
   @Serial private static final long serialVersionUID = 1905122041950251207L;
 
   @CsvBindByName(column = "id")
-  private long id;
+  private Long id;
 
   @CsvBindByName(column = "name")
   private String name;
 
   @CsvBindByName(column = "account_number")
-  private int accountNumber;
+  private Integer accountNumber;
 
   @CsvBindByName(column = "location")
   private String location;
 
   @CsvBindByName(column = "balance")
-  private double balance;
+  private Double balance;
 
   private List<User> users;
 

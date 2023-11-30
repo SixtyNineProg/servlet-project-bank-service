@@ -6,6 +6,7 @@ import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.mapper.Mapper;
 import by.clevertec.klimov.cleverbank.mapper.impl.BankMapper;
+import by.clevertec.klimov.cleverbank.pdf.PdfWriter;
 import by.clevertec.klimov.cleverbank.pdf.impl.BankPdfWriter;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class BankServiceImpl implements BankService {
       "An error occurred while create bank";
   private final BankDao bankDao = new BankDaoImpl();
   private final Mapper<Bank, BankDto> bankMapper = new BankMapper();
+  private final PdfWriter<BankDto> bankPdfWriter = new BankPdfWriter();
 
   @Override
   public long create(BankDto bank) {
@@ -62,7 +64,7 @@ public class BankServiceImpl implements BankService {
     Optional<Bank> optionalBank = bankDao.findById(id);
     if (optionalBank.isPresent()) {
       BankDto bankDto = bankMapper.mapToDto(optionalBank.get(), BankDto.class);
-      return new BankPdfWriter().printToPdf(bankDto);
+      return bankPdfWriter.printToPdf(bankDto);
     } else {
       log.info(String.format("Bank with id = %s not found", id));
       return StringUtils.EMPTY;

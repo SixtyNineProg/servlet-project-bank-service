@@ -1,3 +1,6 @@
 package by.clevertec.klimov.cleverbank.pdf;
 
-public interface PdfWriter {}
+public interface PdfWriter<T> {
+
+  String printToPdf(T object);
+}

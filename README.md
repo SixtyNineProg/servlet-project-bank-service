@@ -46,11 +46,11 @@ To start the project you need:
          {
             "name": "Alfa"
          }
-### DELETE http://localhost:8081/bank/?id={id}
+### DELETE http://localhost:8081/bank?id={id}
 ##### delete bank
          where:
          {id} - bank id
-### GET http://localhost:8081/print_bank/?id={id}
+### GET http://localhost:8081/print_bank?id={id}
 ##### print bank info to PDF
          where:
          {id} - bank id

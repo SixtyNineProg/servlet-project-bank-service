@@ -38,7 +38,7 @@ public class PdfBankController extends HttpServlet {
       in.close();
       out.flush();
     } catch (Exception e) {
-      log.error("An error occurred while get bank", e);
+      log.error("An error occurred while print bank", e);
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }

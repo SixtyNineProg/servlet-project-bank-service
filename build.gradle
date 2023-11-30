@@ -59,6 +59,9 @@ dependencies {
 
   implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.20.1'
   implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.20.1'
+
+  implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
+  implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '3.0.0'
 }
 
 test {

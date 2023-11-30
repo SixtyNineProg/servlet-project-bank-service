@@ -3,7 +3,7 @@ package by.clevertec.klimov.cleverbank.controller;
 import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import by.clevertec.klimov.cleverbank.service.impl.BankServiceImpl;
-import by.clevertec.klimov.cleverbank.util.JsonUtils;
+import by.clevertec.klimov.cleverbank.util.JsonUtil;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class BankController extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        out.print(JsonUtils.objToJson(optionalBank.get()));
+        out.print(JsonUtil.objToJson(optionalBank.get()));
         out.flush();
         httpServletResponse = HttpServletResponse.SC_OK;
       } else {
@@ -50,7 +50,7 @@ public class BankController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     log.debug("Create bank");
     try {
-      BankDto bank = JsonUtils.jsonToObject(IOUtils.toString(request.getReader()), BankDto.class);
+      BankDto bank = JsonUtil.jsonToObject(IOUtils.toString(request.getReader()), BankDto.class);
       int httpServletResponse;
       if (Objects.nonNull(bank)) {
         httpServletResponse =
@@ -72,7 +72,7 @@ public class BankController extends HttpServlet {
     log.debug("Update bank");
     try {
       String body = IOUtils.toString(request.getReader());
-      BankDto requestBank = JsonUtils.jsonToObject(body, BankDto.class);
+      BankDto requestBank = JsonUtil.jsonToObject(body, BankDto.class);
       int httpServletResponse;
       httpServletResponse =
           bankService.update(requestBank) == 1

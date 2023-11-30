@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JsonUtils {
+public class JsonUtil {
 
   public static final Gson GSON = new Gson();
 

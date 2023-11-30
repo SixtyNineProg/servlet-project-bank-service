@@ -1,4 +1,4 @@
-package by.clevertec.klimov.cleverbank.utils;
+package by.clevertec.klimov.cleverbank.util;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.FileReader;
@@ -12,6 +12,7 @@ public class CustomCsvToBean<T> {
     return new CsvToBeanBuilder<T>(new FileReader(filePath))
         .withType(requireClass)
         .withSeparator(separator)
+        .withIgnoreEmptyLine(true)
         .build()
         .parse();
   }

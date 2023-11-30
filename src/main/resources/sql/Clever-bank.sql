@@ -30,6 +30,9 @@ CREATE TABLE IF NOT EXISTS public.bank
 (
     id bigserial NOT NULL,
     name VARCHAR(100),
+    account_number VARCHAR(20) UNIQUE,
+    location VARCHAR(255),
+    balance DECIMAL(10, 2),
     PRIMARY KEY (id)
 );
 
@@ -55,17 +58,27 @@ ALTER TABLE IF EXISTS public.user
     ON UPDATE RESTRICT
     ON DELETE RESTRICT
     NOT VALID;
-	
-insert into bank (id, name) values (1, 'Otcom');
-insert into bank (id, name) values (2, 'Regrant');
-insert into bank (id, name) values (3, 'Redhold');
-insert into bank (id, name) values (4, 'Kanlam');
-insert into bank (id, name) values (5, 'Lotlux');
-insert into bank (id, name) values (6, 'Mat Lam Tam');
-insert into bank (id, name) values (7, 'Bamity');
-insert into bank (id, name) values (8, 'Tempsoft');
-insert into bank (id, name) values (9, 'Vagram');
-insert into bank (id, name) values (10, 'Bitchip');
+
+insert into bank (id, name, account_number, location, balance) values (1, 'Little, Koelpin and Effertz', 26, '03078 Butternut Terrace', 377);
+insert into bank (id, name, account_number, location, balance) values (2, 'Leuschke-Jacobi', 7, '855 Lindbergh Terrace', 557);
+insert into bank (id, name, account_number, location, balance) values (3, 'Wyman, Torphy and Morar', 9, '5155 Kim Drive', 539);
+insert into bank (id, name, account_number, location, balance) values (4, 'Smitham LLC', 27, '5866 La Follette Park', 458);
+insert into bank (id, name, account_number, location, balance) values (5, 'Carter-Mann', 37, '906 Melrose Plaza', 647);
+insert into bank (id, name, account_number, location, balance) values (6, 'Collier LLC', 80, '84675 Kedzie Hill', 54);
+insert into bank (id, name, account_number, location, balance) values (7, 'Beahan-Treutel', 20, '8218 Cherokee Street', 546);
+insert into bank (id, name, account_number, location, balance) values (8, 'Abshire and Sons', 81, '2 Morning Circle', 991);
+insert into bank (id, name, account_number, location, balance) values (9, 'Kuhlman Group', 69, '849 Brickson Park Circle', 170);
+insert into bank (id, name, account_number, location, balance) values (10, 'Hilll, Dare and Kiehn', 14, '0 Reinke Parkway', 755);
+insert into bank (id, name, account_number, location, balance) values (11, 'Volkman-McKenzie', 2, '7040 Vernon Park', 517);
+insert into bank (id, name, account_number, location, balance) values (12, 'Osinski, Waelchi and Brekke', 93, '03 Lillian Center', 941);
+insert into bank (id, name, account_number, location, balance) values (13, 'Hammes Inc', 34, '8287 Ronald Regan Street', 242);
+insert into bank (id, name, account_number, location, balance) values (14, 'Bednar-Reynolds', 57, '238 Little Fleur Terrace', 270);
+insert into bank (id, name, account_number, location, balance) values (15, 'Goldner Inc', 15, '41 Jenifer Center', 543);
+insert into bank (id, name, account_number, location, balance) values (16, 'Satterfield and Sons', 79, '2610 Dennis Plaza', 737);
+insert into bank (id, name, account_number, location, balance) values (17, 'Heller Inc', 45, '26 Tony Center', 815);
+insert into bank (id, name, account_number, location, balance) values (18, 'Armstrong-Torp', 84, '3 Emmet Crossing', 242);
+insert into bank (id, name, account_number, location, balance) values (19, 'Dietrich, Lockman and Herman', 65, '25 Dryden Way', 367);
+insert into bank (id, name, account_number, location, balance) values (20, 'Konopelski-Hessel', 94, '32665 Westport Plaza', 253);
 
 insert into account (id, balance) values (1, 91);
 insert into account (id, balance) values (2, 64);

@@ -1,6 +1,6 @@
-package by.clevertec.klimov.cleverbank.utils;
+package by.clevertec.klimov.cleverbank.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import by.clevertec.klimov.cleverbank.configuration.Configuration;
 import by.clevertec.klimov.cleverbank.configuration.ConfigurationLoader;
@@ -32,5 +32,6 @@ class CustomCsvToBeanTest {
           user.setBank(banks);
           user.setAccount(accounts);
         });
+    assertThat(banks).isNotEmpty();
   }
 }

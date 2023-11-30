@@ -1,10 +1,6 @@
-package by.clevertec.klimov.cleverbank.entity;
+package by.clevertec.klimov.cleverbank.dto;
 
 import com.opencsv.bean.CsvBindByName;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +9,10 @@ import lombok.experimental.FieldNameConstants;
 
 @Data
 @Builder
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldNameConstants
-public class Bank implements Serializable {
-
-  @Serial private static final long serialVersionUID = 1905122041950251207L;
+public class BankDto {
 
   @CsvBindByName(column = "id")
   private Long id;
@@ -34,10 +28,4 @@ public class Bank implements Serializable {
 
   @CsvBindByName(column = "balance")
   private Double balance;
-
-  private List<User> users;
-
-  public void setUsers(List<User> users) {
-    this.users = users.stream().filter(user -> user.getBankId() == id).toList();
-  }
 }

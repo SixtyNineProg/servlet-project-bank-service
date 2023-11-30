@@ -1,5 +1,9 @@
 package by.clevertec.klimov.cleverbank.dao.impl;
 
+import by.clevertec.klimov.cleverbank.aspect.annotation.CreateBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.DeleteBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.ReadBank;
+import by.clevertec.klimov.cleverbank.aspect.annotation.UpdateBank;
 import by.clevertec.klimov.cleverbank.connection.SingleConnection;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.entity.Bank;
@@ -15,25 +19,33 @@ import org.apache.commons.lang.StringEscapeUtils;
 @Slf4j
 public class BankDaoImpl implements BankDao {
 
-  public static final String TEMPLATE_INSERT_QUERY = "INSERT INTO public.bank (name) VALUES (?)";
+  public static final String TEMPLATE_INSERT_QUERY =
+      "INSERT INTO public.bank (name, account_number, location, balance) VALUES (?, ?, ?, ?)";
   public static final String TEMPLATE_SELECT_QUERY =
-      "SELECT id, name FROM public.bank WHERE id = (?)";
+      "SELECT id, name, account_number, location, balance FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_UPDATE_QUERY =
-      "UPDATE public.bank SET name = (?) WHERE id = (?)";
+      "UPDATE public.bank SET name = (?), account_number = (?), location = (?), balance = (?) WHERE id = (?)";
 
   public static final String ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY =
       "An error occurred while executing sql query";
 
   public static final String ATTRIBUTE_KEY_ID = "id";
   public static final String ATTRIBUTE_KEY_NAME = "name";
+  public static final String ATTRIBUTE_KEY_ACCOUNT_NUMBER = "account_number";
+  public static final String ATTRIBUTE_KEY_LOCATION = "location";
+  public static final String ATTRIBUTE_KEY_BALANCE = "balance";
 
   @Override
+  @CreateBank
   public int save(Bank bank) {
     Connection connection = SingleConnection.getConnection();
     try {
       PreparedStatement insert = connection.prepareStatement(TEMPLATE_INSERT_QUERY);
       insert.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
+      insert.setInt(2, bank.getAccountNumber());
+      insert.setString(3, StringEscapeUtils.escapeSql(bank.getLocation()));
+      insert.setDouble(4, bank.getBalance());
       return insert.executeUpdate();
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
@@ -47,6 +59,7 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @ReadBank
   public Optional<Bank> findById(Long id) {
     Connection connection = SingleConnection.getConnection();
     try {
@@ -56,8 +69,11 @@ public class BankDaoImpl implements BankDao {
       if (res.next()) {
         return Optional.of(
             Bank.builder()
-                .id(Long.parseLong(res.getString(ATTRIBUTE_KEY_ID)))
+                .id(res.getLong(ATTRIBUTE_KEY_ID))
                 .name(res.getString(ATTRIBUTE_KEY_NAME))
+                .accountNumber(res.getInt(ATTRIBUTE_KEY_ACCOUNT_NUMBER))
+                .location(res.getString(ATTRIBUTE_KEY_LOCATION))
+                .balance(res.getDouble(ATTRIBUTE_KEY_BALANCE))
                 .build());
       } else {
         return Optional.empty();
@@ -69,6 +85,7 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @DeleteBank
   public int deleteById(Long id) {
     Connection connection = SingleConnection.getConnection();
     try {
@@ -82,12 +99,16 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  @UpdateBank
   public int update(Bank bank) {
     Connection connection = SingleConnection.getConnection();
     try {
       PreparedStatement update = connection.prepareStatement(TEMPLATE_UPDATE_QUERY);
       update.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
-      update.setLong(2, bank.getId());
+      update.setInt(2, bank.getAccountNumber());
+      update.setString(3, StringEscapeUtils.escapeSql(bank.getLocation()));
+      update.setDouble(4, bank.getBalance());
+      update.setLong(5, bank.getId());
       return update.executeUpdate();
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);

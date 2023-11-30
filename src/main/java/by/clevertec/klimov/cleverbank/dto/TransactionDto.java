@@ -1,17 +1,14 @@
-package by.clevertec.klimov.cleverbank.entity;
+package by.clevertec.klimov.cleverbank.dto;
 
+import by.clevertec.klimov.cleverbank.entity.User;
 import java.util.Date;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Transaction {
+public class TransactionDto {
 
   private long id;
 

@@ -23,10 +23,10 @@ public class BankController extends HttpServlet {
   private final BankService bankService = new BankServiceImpl();
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse response) {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     log.debug("Get bank");
     try {
-      long id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
+      long id = Integer.parseInt(request.getParameter(PARAM_NAME_ID));
       Optional<BankDto> optionalBank = bankService.readById(id);
       int httpServletResponse;
       if (optionalBank.isPresent()) {

@@ -50,3 +50,7 @@ To start the project you need:
 ##### delete bank
          where:
          {id} - bank id
+### GET http://localhost:8081/print_bank/?id={id}
+##### print bank info to PDF
+         where:
+         {id} - bank id

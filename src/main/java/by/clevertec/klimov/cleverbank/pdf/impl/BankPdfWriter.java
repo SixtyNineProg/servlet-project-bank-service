@@ -30,10 +30,10 @@ public class BankPdfWriter implements PdfWriter<BankDto> {
   public static final int SPACE_AFTER_TITLE = 30;
   public static final int TITLE_FONT_SIZE = 20;
   public static final int BODY_FONT_SIZE = 12;
+  private final PDFont pdFont = new PDType1Font(Standard14Fonts.FontName.COURIER);
   private float startX;
   private float startY;
   private float endY;
-  private final PDFont pdFont = new PDType1Font(Standard14Fonts.FontName.COURIER);
 
   @Override
   public String printToPdf(BankDto bankDto) {

@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -19,10 +21,12 @@ import org.apache.commons.lang.StringEscapeUtils;
 @Slf4j
 public class BankDaoImpl implements BankDao {
 
-  public static final String TEMPLATE_INSERT_QUERY =
+  public static final String TEMPLATE_QUERY_INSERT =
       "INSERT INTO public.bank (name, account_number, location, balance) VALUES (?, ?, ?, ?)";
-  public static final String TEMPLATE_SELECT_QUERY =
+  public static final String TEMPLATE_QUERY_SELECT_BY_ID =
       "SELECT id, name, account_number, location, balance FROM public.bank WHERE id = (?)";
+  public static final String TEMPLATE_QUERY_SELECT_ALL =
+      "SELECT id, name, account_number, location, balance FROM public.bank";
   public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_UPDATE_QUERY =
       "UPDATE public.bank SET name = (?), account_number = (?), location = (?), balance = (?) WHERE id = (?)";
@@ -41,7 +45,7 @@ public class BankDaoImpl implements BankDao {
   public int save(Bank bank) {
     Connection connection = SingleConnection.getConnection();
     try {
-      PreparedStatement insert = connection.prepareStatement(TEMPLATE_INSERT_QUERY);
+      PreparedStatement insert = connection.prepareStatement(TEMPLATE_QUERY_INSERT);
       insert.setString(1, StringEscapeUtils.escapeSql(bank.getName()));
       insert.setInt(2, bank.getAccountNumber());
       insert.setString(3, StringEscapeUtils.escapeSql(bank.getLocation()));
@@ -63,7 +67,7 @@ public class BankDaoImpl implements BankDao {
   public Optional<Bank> findById(Long id) {
     Connection connection = SingleConnection.getConnection();
     try {
-      PreparedStatement select = connection.prepareStatement(TEMPLATE_SELECT_QUERY);
+      PreparedStatement select = connection.prepareStatement(TEMPLATE_QUERY_SELECT_BY_ID);
       select.setLong(1, id);
       ResultSet res = select.executeQuery();
       if (res.next()) {
@@ -78,6 +82,30 @@ public class BankDaoImpl implements BankDao {
       } else {
         return Optional.empty();
       }
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
+  }
+
+  @Override
+  public List<Bank> findAll() {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement select = connection.prepareStatement(TEMPLATE_QUERY_SELECT_ALL);
+      ResultSet resultSet = select.executeQuery();
+      List<Bank> banks = new ArrayList<>();
+      while (resultSet.next()) {
+        banks.add(
+            Bank.builder()
+                .id(resultSet.getLong(ATTRIBUTE_KEY_ID))
+                .name(resultSet.getString(ATTRIBUTE_KEY_NAME))
+                .accountNumber(resultSet.getInt(ATTRIBUTE_KEY_ACCOUNT_NUMBER))
+                .location(resultSet.getString(ATTRIBUTE_KEY_LOCATION))
+                .balance(resultSet.getDouble(ATTRIBUTE_KEY_BALANCE))
+                .build());
+      }
+      return banks;
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
       throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);

@@ -4,15 +4,16 @@ import by.clevertec.klimov.cleverbank.dao.BankDao;
 import by.clevertec.klimov.cleverbank.dao.impl.BankDaoImpl;
 import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.entity.Bank;
+import by.clevertec.klimov.cleverbank.exception.DaoNotFoundException;
 import by.clevertec.klimov.cleverbank.mapper.Mapper;
 import by.clevertec.klimov.cleverbank.mapper.impl.BankMapper;
 import by.clevertec.klimov.cleverbank.pdf.PdfWriter;
 import by.clevertec.klimov.cleverbank.pdf.impl.BankPdfWriter;
 import by.clevertec.klimov.cleverbank.service.BankService;
+import java.util.List;
 import java.util.Optional;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 @Slf4j
 @Data
@@ -20,6 +21,7 @@ public class BankServiceImpl implements BankService {
 
   public static final String ERROR_OCCURRED_WHILE_CREATE_BANK =
       "An error occurred while create bank";
+  public static final String BANK_WITH_ID_NOT_FOUND = "Bank with id = %s not found";
   private final BankDao bankDao = new BankDaoImpl();
   private final Mapper<Bank, BankDto> bankMapper = new BankMapper();
   private final PdfWriter<BankDto> bankPdfWriter = new BankPdfWriter();
@@ -38,6 +40,13 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
+  public List<BankDto> readAll() {
+    log.info("Read all banks");
+    List<Bank> banks = bankDao.findAll();
+    return bankMapper.mapToDto(banks, BankDto.class);
+  }
+
+  @Override
   public int update(BankDto bankDto) {
     log.debug("Update bank: {}", bankDto);
     Optional<Bank> optionalBank = bankDao.findById(bankDto.getId());
@@ -47,7 +56,7 @@ public class BankServiceImpl implements BankService {
       log.info("Update user with id = {} successfully", bankDto.getId());
       return bankDao.update(dbBank);
     } else {
-      log.info(String.format("Bank with id = %s not found", bankDto.getId()));
+      log.info(String.format(BANK_WITH_ID_NOT_FOUND, bankDto.getId()));
       return 0;
     }
   }
@@ -58,6 +67,12 @@ public class BankServiceImpl implements BankService {
     return bankDao.deleteById(id);
   }
 
+  /**
+   * Print bank to PDF
+   *
+   * @param id - bank id
+   * @return file generated path
+   */
   @Override
   public String writeToPdf(Long id) {
     log.info("Print bank to PDF by id = {}", id);
@@ -66,8 +81,8 @@ public class BankServiceImpl implements BankService {
       BankDto bankDto = bankMapper.mapToDto(optionalBank.get(), BankDto.class);
       return bankPdfWriter.printToPdf(bankDto);
     } else {
-      log.info(String.format("Bank with id = %s not found", id));
-      return StringUtils.EMPTY;
+      log.info(String.format(BankServiceImpl.BANK_WITH_ID_NOT_FOUND, id));
+      throw new DaoNotFoundException(String.format(BANK_WITH_ID_NOT_FOUND, id));
     }
   }
 }

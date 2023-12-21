@@ -1,7 +1,6 @@
 package by.clevertec.klimov.cleverbank.entity;
 
 import com.opencsv.bean.CsvBindByName;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;

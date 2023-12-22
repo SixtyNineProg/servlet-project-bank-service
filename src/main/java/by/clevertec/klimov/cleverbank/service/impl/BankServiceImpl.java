@@ -97,6 +97,9 @@ public class BankServiceImpl implements BankService {
   @Override
   public String writeToPdf(Long id) {
     log.info("Print bank to PDF by id = {}", id);
+    if (Objects.isNull(id) || id < 0) {
+      throw new ServiceException("Offset isn't correct");
+    }
     Optional<Bank> optionalBank = bankDao.findById(id);
     if (optionalBank.isPresent()) {
       BankDto bankDto = bankMapper.mapToDto(optionalBank.get(), BankDto.class);

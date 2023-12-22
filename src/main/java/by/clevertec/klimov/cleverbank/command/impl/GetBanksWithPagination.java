@@ -1,6 +1,7 @@
 package by.clevertec.klimov.cleverbank.command.impl;
 
 import by.clevertec.klimov.cleverbank.command.Command;
+import by.clevertec.klimov.cleverbank.command.SessionRequestContent;
 import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.exception.CommandException;
 import by.clevertec.klimov.cleverbank.service.ServiceProvider;
@@ -8,7 +9,6 @@ import by.clevertec.klimov.cleverbank.util.Constants;
 import by.clevertec.klimov.cleverbank.util.JsonUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,8 +22,10 @@ public class GetBanksWithPagination implements Command {
       throws CommandException {
     log.debug("Get banks with pagination");
     try {
-      Integer offset = Integer.parseInt(request.getParameter(Constants.PARAM_NAME_OFFSET));
-      Integer limit = Integer.parseInt(request.getParameter(Constants.PARAM_NAME_LIMIT));
+      SessionRequestContent sessionRequestContent = new SessionRequestContent(request);
+      Integer offset =
+          sessionRequestContent.getParameter(Constants.PARAM_NAME_OFFSET, Integer.class);
+      Integer limit = sessionRequestContent.getParameter(Constants.PARAM_NAME_LIMIT, Integer.class);
       List<BankDto> banks = ServiceProvider.getInstance().getBankService().read(offset, limit);
       prepareResponse(response, banks);
     } catch (Exception e) {
@@ -32,7 +34,8 @@ public class GetBanksWithPagination implements Command {
     }
   }
 
-  private void prepareResponse(HttpServletResponse response, List<BankDto> banks) throws IOException {
+  private void prepareResponse(HttpServletResponse response, List<BankDto> banks)
+      throws IOException {
     int httpServletResponse;
     if (banks.isEmpty()) {
       httpServletResponse = HttpServletResponse.SC_NOT_FOUND;

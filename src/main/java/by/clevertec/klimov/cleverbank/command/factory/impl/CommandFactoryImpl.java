@@ -5,6 +5,7 @@ import by.clevertec.klimov.cleverbank.command.factory.CommandFactory;
 import by.clevertec.klimov.cleverbank.command.impl.GetAllBanksCommand;
 import by.clevertec.klimov.cleverbank.command.impl.GetBankByIdCommand;
 import by.clevertec.klimov.cleverbank.command.impl.GetBanksWithPagination;
+import by.clevertec.klimov.cleverbank.command.impl.PrintBankToPdf;
 import by.clevertec.klimov.cleverbank.exception.CommandNotFoundException;
 
 public class CommandFactoryImpl implements CommandFactory {
@@ -15,6 +16,7 @@ public class CommandFactoryImpl implements CommandFactory {
       case "getAll" -> new GetAllBanksCommand();
       case "getById" -> new GetBankByIdCommand();
       case "getWithPagination" -> new GetBanksWithPagination();
+      case "printBankToPdf" -> new PrintBankToPdf();
       default -> throw new CommandNotFoundException("Command not found");
     };
   }

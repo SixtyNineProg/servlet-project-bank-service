@@ -1,10 +1,11 @@
-package by.clevertec.klimov.cleverbank.controller;
+package by.clevertec.klimov.cleverbank.command.impl;
 
+import by.clevertec.klimov.cleverbank.command.Command;
+import by.clevertec.klimov.cleverbank.command.SessionRequestContent;
+import by.clevertec.klimov.cleverbank.exception.CommandException;
 import by.clevertec.klimov.cleverbank.exception.DaoNotFoundException;
 import by.clevertec.klimov.cleverbank.service.ServiceProvider;
 import by.clevertec.klimov.cleverbank.util.Constants;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -13,14 +14,15 @@ import java.io.OutputStream;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebServlet(name = "pdf", value = "/print_bank")
-public class PdfBankController extends HttpServlet {
+public class PrintBankToPdf implements Command {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) {
+  public void execute(HttpServletRequest request, HttpServletResponse response)
+      throws CommandException {
     log.debug("Print Bank to PDF");
     try {
-      long id = Integer.parseInt(request.getParameter(Constants.PARAM_NAME_ID));
+      SessionRequestContent sessionRequestContent = new SessionRequestContent(request);
+      Long id = sessionRequestContent.getParameter(Constants.PARAM_NAME_ID, Long.class);
       String filePath = ServiceProvider.getInstance().getBankService().writeToPdf(id);
       response.setContentType("application/pdf");
       response.setHeader("Content-disposition", "attachment; filename=Bank.pdf");
@@ -38,8 +40,8 @@ public class PdfBankController extends HttpServlet {
       log.error(e.getMessage(), e);
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
     } catch (Exception e) {
-      log.error("An error occurred while print bank", e);
-      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      log.error("An error occurred while print bank to pdf", e);
+      throw new CommandException("An error occurred while get all banks", e);
     }
   }
 }

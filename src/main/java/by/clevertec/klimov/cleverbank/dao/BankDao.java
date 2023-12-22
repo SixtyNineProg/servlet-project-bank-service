@@ -6,4 +6,5 @@ import java.util.List;
 public interface BankDao extends CrudDao<Bank, Long> {
 
   List<Bank> findAll();
+  List<Bank> find(int offset, int limit);
 }

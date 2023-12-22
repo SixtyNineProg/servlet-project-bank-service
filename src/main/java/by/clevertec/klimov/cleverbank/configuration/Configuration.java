@@ -14,6 +14,7 @@ public class Configuration {
   private Datasource datasource;
   private Paths paths;
   private Cache cache;
+  private Pagination pagination;
 
   @Data
   public static class Datasource {
@@ -39,5 +40,11 @@ public class Configuration {
 
     private CacheType type;
     private int size;
+  }
+
+  @Data
+  public static class Pagination {
+
+    private int pageSize;
   }
 }

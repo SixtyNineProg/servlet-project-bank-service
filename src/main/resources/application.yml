@@ -13,3 +13,6 @@ cache:
   type: LRU
   size: 1
 
+pagination:
+  pageSize: 20
+

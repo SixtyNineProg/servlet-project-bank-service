@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 public class Constants {
 
   public static final String PARAM_NAME_ID = "id";
+  public static final String PARAM_NAME_OFFSET = "offset";
+  public static final String PARAM_NAME_LIMIT = "limit";
 }

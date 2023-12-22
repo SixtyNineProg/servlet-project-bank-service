@@ -27,6 +27,8 @@ public class BankDaoImpl implements BankDao {
       "SELECT id, name, account_number, location, balance FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_QUERY_SELECT_ALL =
       "SELECT id, name, account_number, location, balance FROM public.bank";
+  public static final String TEMPLATE_QUERY_SELECT_PAGEABLE =
+      "SELECT id, name, account_number, location, balance FROM public.bank offset (?) limit (?)";
   public static final String TEMPLATE_DELETE_QUERY = "DELETE FROM public.bank WHERE id = (?)";
   public static final String TEMPLATE_UPDATE_QUERY =
       "UPDATE public.bank SET name = (?), account_number = (?), location = (?), balance = (?) WHERE id = (?)";
@@ -89,23 +91,25 @@ public class BankDaoImpl implements BankDao {
   }
 
   @Override
+  public List<Bank> find(int offset, int limit) {
+    Connection connection = SingleConnection.getConnection();
+    try {
+      PreparedStatement select = connection.prepareStatement(TEMPLATE_QUERY_SELECT_PAGEABLE);
+      select.setInt(1, offset);
+      select.setInt(2, limit);
+      return getBanks(select);
+    } catch (SQLException e) {
+      log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+      throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
+    }
+  }
+
+  @Override
   public List<Bank> findAll() {
     Connection connection = SingleConnection.getConnection();
     try {
       PreparedStatement select = connection.prepareStatement(TEMPLATE_QUERY_SELECT_ALL);
-      ResultSet resultSet = select.executeQuery();
-      List<Bank> banks = new ArrayList<>();
-      while (resultSet.next()) {
-        banks.add(
-            Bank.builder()
-                .id(resultSet.getLong(ATTRIBUTE_KEY_ID))
-                .name(resultSet.getString(ATTRIBUTE_KEY_NAME))
-                .accountNumber(resultSet.getInt(ATTRIBUTE_KEY_ACCOUNT_NUMBER))
-                .location(resultSet.getString(ATTRIBUTE_KEY_LOCATION))
-                .balance(resultSet.getDouble(ATTRIBUTE_KEY_BALANCE))
-                .build());
-      }
-      return banks;
+      return getBanks(select);
     } catch (SQLException e) {
       log.error(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
       throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
@@ -147,5 +151,21 @@ public class BankDaoImpl implements BankDao {
       }
       throw new DaoException(ERROR_OCCURRED_WHILE_EXECUTING_SQL_QUERY, e);
     }
+  }
+
+  private List<Bank> getBanks(PreparedStatement select) throws SQLException {
+    ResultSet resultSet = select.executeQuery();
+    List<Bank> banks = new ArrayList<>();
+    while (resultSet.next()) {
+      banks.add(
+          Bank.builder()
+              .id(resultSet.getLong(ATTRIBUTE_KEY_ID))
+              .name(resultSet.getString(ATTRIBUTE_KEY_NAME))
+              .accountNumber(resultSet.getInt(ATTRIBUTE_KEY_ACCOUNT_NUMBER))
+              .location(resultSet.getString(ATTRIBUTE_KEY_LOCATION))
+              .balance(resultSet.getDouble(ATTRIBUTE_KEY_BALANCE))
+              .build());
+    }
+    return banks;
   }
 }

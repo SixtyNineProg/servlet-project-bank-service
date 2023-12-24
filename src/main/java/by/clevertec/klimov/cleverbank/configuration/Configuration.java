@@ -25,6 +25,7 @@ public class Configuration {
 
     @SerializedName(value = "driver-class-name")
     private String driverClassName;
+    private Boolean isInitDb;
   }
 
   @Data

@@ -89,10 +89,10 @@ public class SessionRequestContent {
   }
 
   /**
-   * Gets the Integer parameter by name.
+   * Gets parameter by name with cast.
    *
    * @param parameterName the parameter name
-   * @return the Integer parameter by name
+   * @return the parameter by name
    */
   public <T> T getParameter(String parameterName, Class<T> tClass) {
     String parameter = getParameterByName(parameterName);

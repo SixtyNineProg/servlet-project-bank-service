@@ -1,11 +1,7 @@
 package by.clevertec.klimov.cleverbank.configuration;
 
-import by.clevertec.klimov.cleverbank.exception.ServiceException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;

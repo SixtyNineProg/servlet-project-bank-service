@@ -17,8 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Account implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 1905122041950251209L;
+  @Serial private static final long serialVersionUID = 1905122041950251209L;
 
   @CsvBindByName(column = "id")
   private long id;

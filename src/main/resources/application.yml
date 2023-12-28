@@ -3,6 +3,7 @@ datasource:
   user: "postgres"
   password: "123456789"
   driver-class-name: "org.postgresql.Driver"
+  isInitDb: true
 
 paths:
   accounts: "src/main/resources/csv/accounts.csv"
@@ -12,4 +13,7 @@ paths:
 cache:
   type: LRU
   size: 1
+
+pagination:
+  pageSize: 20
 

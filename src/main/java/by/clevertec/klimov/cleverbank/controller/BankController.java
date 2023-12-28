@@ -8,7 +8,7 @@ import by.clevertec.klimov.cleverbank.exception.CommandException;
 import by.clevertec.klimov.cleverbank.exception.CommandNotFoundException;
 import by.clevertec.klimov.cleverbank.service.ServiceProvider;
 import by.clevertec.klimov.cleverbank.util.Constants;
-import by.clevertec.klimov.cleverbank.util.JsonUtil;
+import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +20,8 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 @WebServlet(name = "bank", value = "/bank")
 public class BankController extends HttpServlet {
+
+  private final Gson gson = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -46,7 +48,7 @@ public class BankController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     log.debug("Create bank");
     try {
-      BankDto bank = JsonUtil.jsonToObject(IOUtils.toString(request.getReader()), BankDto.class);
+      BankDto bank = gson.fromJson(IOUtils.toString(request.getReader()), BankDto.class);
       int httpServletResponse;
       if (Objects.nonNull(bank)) {
         httpServletResponse =
@@ -68,7 +70,7 @@ public class BankController extends HttpServlet {
     log.debug("Update bank");
     try {
       String body = IOUtils.toString(request.getReader());
-      BankDto requestBank = JsonUtil.jsonToObject(body, BankDto.class);
+      BankDto requestBank = gson.fromJson(body, BankDto.class);
       int httpServletResponse;
       httpServletResponse =
           ServiceProvider.getInstance().getBankService().update(requestBank) == 1

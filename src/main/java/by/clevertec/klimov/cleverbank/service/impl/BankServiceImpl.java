@@ -15,18 +15,14 @@ import by.clevertec.klimov.cleverbank.service.BankService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Data
 public class BankServiceImpl implements BankService {
 
-  public static final String ERROR_OCCURRED_WHILE_CREATE_BANK =
-      "An error occurred while create bank";
   public static final String BANK_WITH_ID_NOT_FOUND = "Bank with id = %s not found";
-  private final BankDao bankDao = new BankDaoImpl();
-  private final PdfWriter<BankDto> bankPdfWriter = new BankPdfWriter();
+  private BankDao bankDao = new BankDaoImpl();
+  private PdfWriter<BankDto> bankPdfWriter = new BankPdfWriter();
 
   @Override
   public long create(BankDto bankDto) {

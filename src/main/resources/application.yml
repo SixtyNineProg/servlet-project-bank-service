@@ -3,7 +3,7 @@ datasource:
   user: "postgres"
   password: "123456789"
   driver-class-name: "org.postgresql.Driver"
-  isInitDb: false
+  isInitDb: true
 
 paths:
   accounts: "src/main/resources/csv/accounts.csv"

@@ -2,7 +2,6 @@ package by.clevertec.klimov.cleverbank.service.impl;
 
 import by.clevertec.klimov.cleverbank.configuration.ConfigurationLoader;
 import by.clevertec.klimov.cleverbank.dao.BankDao;
-import by.clevertec.klimov.cleverbank.dao.impl.BankDaoImpl;
 import by.clevertec.klimov.cleverbank.dto.BankDto;
 import by.clevertec.klimov.cleverbank.entity.Bank;
 import by.clevertec.klimov.cleverbank.exception.DaoException;
@@ -10,19 +9,20 @@ import by.clevertec.klimov.cleverbank.exception.DaoNotFoundException;
 import by.clevertec.klimov.cleverbank.exception.ServiceException;
 import by.clevertec.klimov.cleverbank.mapper.BankMapper;
 import by.clevertec.klimov.cleverbank.pdf.PdfWriter;
-import by.clevertec.klimov.cleverbank.pdf.impl.BankPdfWriter;
 import by.clevertec.klimov.cleverbank.service.BankService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
 public class BankServiceImpl implements BankService {
 
   public static final String BANK_WITH_ID_NOT_FOUND = "Bank with id = %s not found";
-  private BankDao bankDao = new BankDaoImpl();
-  private PdfWriter<BankDto> bankPdfWriter = new BankPdfWriter();
+  private final BankDao bankDao;
+  private final PdfWriter<BankDto> bankPdfWriter;
 
   @Override
   public long create(BankDto bankDto) {
